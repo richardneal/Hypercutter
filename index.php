@@ -41,9 +41,10 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 </script>
 </head>
 <body>
-<div id="wrap">
+
 <h1>Hypercutter</h1>
 <p><button id="about">About This Tool</button></p>
+<div id="wrap">
 <?php
 
 if(isset($_SESSION['uploaded_files'])) {
@@ -279,9 +280,13 @@ foreach($files as $file) {
 </form>
 
 <div id="progress"></div>
+</div>
 
 <div id="messages">
+<fieldset>
+<legend>Files</legend>
 <p>Status Messages</p>
+</fieldset>
 </div>
 
 <script src="filedrag.js"></script>
@@ -305,6 +310,6 @@ foreach($files as $file) {
 	</ol>
 </div>
 
-</div>
+
 </body>
 </html>
