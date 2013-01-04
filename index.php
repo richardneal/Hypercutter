@@ -246,6 +246,18 @@ foreach($files as $file) {
 <form id="upload" action="upload.php" method="POST" enctype="multipart/form-data">
 
 <fieldset>
+<legend>Bulk File Upload</legend>
+
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
+<div>
+	<label for="fileselect">Files to upload:</label>
+	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<div id="filedrag">Or drop files here</div>
+</div>
+
+</fieldset>
+
+<fieldset>
 <legend>Scrubbing Options</legend>
 <table width="350">
 <tr>
@@ -260,18 +272,6 @@ foreach($files as $file) {
 <p><label for="chunksize">Chunk Size:</label> <input name="chunksize" type="text" size="12"/> (No. words per chunk)</p>
 <p><label for="shiftsize">Overlap:</label> <input name="shiftsize" type="text" size="12" value="0"/> (No. words overlapping at chunk boundaries)</p>
 <p><label for="lastprop">Last Proportion:</label> <input name="lastprop" type="text" size="3" value="50"/>% (The proportion of chunksize the last chunk can be)</p>
-</fieldset>
-
-<fieldset>
-<legend>Bulk File Upload</legend>
-
-<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
-<div>
-	<label for="fileselect">Files to upload:</label>
-	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-	<div id="filedrag">Or drop files here</div>
-</div>
-
 </fieldset>
 
 <p><input type="submit" value="Scrub &amp; Chunk Files"/></p>
