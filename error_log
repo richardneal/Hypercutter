@@ -1,0 +1,16 @@
+[02-Jan-2013 19:45:24] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home1/scottkl1/public_html/beo/hypercutter/upload.php:53) in /home1/scottkl1/public_html/beo/hypercutter/upload.php on line 59
+[02-Jan-2013 19:47:38] PHP Warning:  unlink(chunks.zip) [<a href='function.unlink'>function.unlink</a>]: No such file or directory in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 2
+[02-Jan-2013 19:47:38] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 22:37:28] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 22:42:09] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 22:42:25] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 22:45:46] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 23:24:07] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 23:24:41] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 23:25:44] PHP Warning:  filesize() [<a href='function.filesize'>function.filesize</a>]: stat failed for chunks.zip in /home1/scottkl1/public_html/beo/hypercutter/chunks.php on line 33
+[02-Jan-2013 23:26:41] PHP Parse error:  syntax error, unexpected T_STRING, expecting ',' or ';' in /home1/scottkl1/public_html/beo/hypercutter/index.php on line 172
+[02-Jan-2013 23:26:44] PHP Parse error:  syntax error, unexpected T_STRING, expecting ',' or ';' in /home1/scottkl1/public_html/beo/hypercutter/index.php on line 172
+[02-Jan-2013 23:54:13] PHP Parse error:  syntax error, unexpected T_LNUMBER, expecting ',' or ';' in /home1/scottkl1/public_html/beo/hypercutter/index.php on line 176
+[02-Jan-2013 23:59:21] PHP Warning:  Unexpected character in input:  '\' (ASCII=92) state=1 in /home1/scottkl1/public_html/beo/hypercutter/index.php on line 176
+[02-Jan-2013 23:59:21] PHP Parse error:  syntax error, unexpected T_LNUMBER, expecting ',' or ';' in /home1/scottkl1/public_html/beo/hypercutter/index.php on line 176
+[03-Jan-2013 07:39:30] PHP Warning:  Invalid argument supplied for foreach() in /home1/scottkl1/public_html/beo/hypercutter/upload.php on line 45
