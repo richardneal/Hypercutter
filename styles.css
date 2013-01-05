@@ -35,9 +35,8 @@ legend
 
 #wrap
 {
-	width: 25%;
+	width: 75%;
 	margin: 10px auto;
-	float: left;
 }
 
 #filedrag
@@ -82,9 +81,8 @@ pre
 #messages
 {
 	padding: 0 10px;
-	margin: 10px auto;
-	width: 65%;
-	float: right;
+	margin: 1em 0;
+	border: 1px solid #999;
 }
 
 #progress p

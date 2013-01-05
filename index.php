@@ -41,10 +41,9 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 </script>
 </head>
 <body>
-
+<div id="wrap">
 <h1>Hypercutter</h1>
 <p><button id="about">About This Tool</button></p>
-<div id="wrap">
 <?php
 
 if(isset($_SESSION['uploaded_files'])) {
@@ -247,18 +246,6 @@ foreach($files as $file) {
 <form id="upload" action="upload.php" method="POST" enctype="multipart/form-data">
 
 <fieldset>
-<legend>Bulk File Upload</legend>
-
-<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
-<div>
-	<label for="fileselect">Files to upload:</label>
-	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-	<div id="filedrag">Or drop files here</div>
-</div>
-
-</fieldset>
-
-<fieldset>
 <legend>Scrubbing Options</legend>
 <table width="350">
 <tr>
@@ -275,18 +262,26 @@ foreach($files as $file) {
 <p><label for="lastprop">Last Proportion:</label> <input name="lastprop" type="text" size="3" value="50"/>% (The proportion of chunksize the last chunk can be)</p>
 </fieldset>
 
+<fieldset>
+<legend>Bulk File Upload</legend>
+
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
+<div>
+	<label for="fileselect">Files to upload:</label>
+	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<div id="filedrag">Or drop files here</div>
+</div>
+
+</fieldset>
+
 <p><input type="submit" value="Scrub &amp; Chunk Files"/></p>
 
 </form>
 
 <div id="progress"></div>
-</div>
 
 <div id="messages">
-<fieldset>
-<legend>Files</legend>
 <p>Status Messages</p>
-</fieldset>
 </div>
 
 <script src="filedrag.js"></script>
@@ -310,6 +305,6 @@ foreach($files as $file) {
 	</ol>
 </div>
 
-
+</div>
 </body>
 </html>
