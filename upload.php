@@ -25,11 +25,16 @@ if(isset($_POST['hyphens']) && $_POST['hyphens'] == 'yes') {
 $fn = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
 $uploaded_files = array();
 
+if (!is_dir('uploads/' . session_id())) {
+	mkdir('uploads/' . session_id());
+}
+$directory = 'uploads/' . session_id() . '/';
+
 if ($fn) {
 
 	// AJAX call
 	file_put_contents(
-		'uploads/' . $fn,
+		$directory . $fn,
 		file_get_contents('php://input')
 	);
 	$_SESSION['uploaded_files'][] = $fn;
@@ -47,7 +52,7 @@ else {
 			$fn = $files['name'][$id];
 			move_uploaded_file(
 				$files['tmp_name'][$id],
-				'uploads/' . $fn
+				$directory . $fn
 			);
 			$_SESSION['uploaded_files'][] = $fn;
 			//echo "<p>File $fn uploaded.</p>";

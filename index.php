@@ -9,10 +9,13 @@ session_start();
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	unset($_SESSION['uploaded_files']);
-	$files = glob('uploads/*'); // get all file names
+	$files = glob('uploads/' . session_id() . '/*'); // get all file names
 	foreach($files as $file) {
 		if(is_file($file))
 		unlink($file); // delete file
+	}
+	if (is_dir('uploads/' . session_id())) {
+		rmdir('uploads/' . session_id());
 	}
 
 }
@@ -48,11 +51,11 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
-error_reporting(4);
+//error_reporting(4);
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
-$directory = "hypercutter/uploads";
+$directory = "hypercutter/uploads/" . session_id();
 $chunksize = $_SESSION['chunksize'];
 $shiftsize = $_SESSION['shiftsize'];
 $lastprop = $_SESSION['lastprop'];
@@ -183,7 +186,7 @@ echo "<hr>";
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
-	$text = file_get_contents("uploads/".$sourcefile);
+	$text = file_get_contents('uploads/'.session_id().'/'.$sourcefile);
 
 	// Scrub the text
 	// Replace accented characters
@@ -225,7 +228,10 @@ foreach ($chunkarray as $range=>$tokens) {
 	$i++;
 	// Write the header and string to a file here.
 	$out = $header . "\n" . $str;
-	$outdirectory = "files/chunks/"; // Needs a directory path
+	if (!is_dir('files/chunks/' . session_id())) {
+		mkdir('files/chunks/' . session_id());
+	}
+	$outdirectory = "files/chunks/" . session_id() . "/"; // Needs a directory path
 	$outfile = $outdirectory . $outfile;
 	file_put_contents($outfile, $out);		
 }

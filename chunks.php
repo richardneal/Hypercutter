@@ -1,4 +1,5 @@
 <?php
+session_start();
 //unlink("chunks.zip");
 $zip = new ZipArchive();
 $filename = "chunks.zip";
@@ -7,9 +8,9 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     exit("cannot open <$filename>\n");
 }
 
-$files = glob('files/chunks/*'); // get all file names
+$files = glob('files/chunks/' . session_id() . '/*'); // get all file names
 foreach ($files as $file) {
-	$zip->addFile($file);
+	$zip->addFile($file, basename($file));
 	//if(is_file($file)) { // Delete the file after adding to the archive
 	//	unlink($file);
 	//}
