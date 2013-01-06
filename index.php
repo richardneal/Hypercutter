@@ -61,6 +61,7 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js?ver=1.8.21'></script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="tooltips.js"></script>
 <script>
  $(function() {
         $( "#dialog-modal" ).dialog({
