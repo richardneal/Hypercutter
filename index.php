@@ -212,8 +212,8 @@ echo '<p><button id="cluster">Generate Dendogram</button></p>
 
 echo "<hr>";
 echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
-echo "<td width=\"200\">Overlap: " . $_SESSION['chunksize'] + $_SESSION['shiftsize'] . "</td>";
-echo "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>";
+echo "<td width=\"200\">Overlap: " . $_SESSION['shiftsize'] . "</td>";
+echo ($_SESSION['chunksize'] ? "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>" : "</tr>");
 echo "<tr><td width=\"200\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
 echo "<td colspan=\"2\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr></table>";
 echo "<hr>";
