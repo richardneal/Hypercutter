@@ -89,6 +89,7 @@ if(isset($_SESSION['uploaded_files'])) {
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
 $directory = "hypercutter/uploads/" . session_id();
 $chunksize = $_SESSION['chunksize'];
+$chunknumber = $_SESSION['chunknumber'];
 $shiftsize = $_SESSION['shiftsize'];
 $lastprop = $_SESSION['lastprop'];
 
@@ -210,8 +211,8 @@ echo '<p><button id="cluster">Generate Dendogram</button></p>
 <a href="download_tsv.php">Download Merged TSV</a></p>';
 
 echo "<hr>";
-echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>Chunk Size: " . $_SESSION['chunksize'] . "</td>";
-echo "<td width=\"200\">Overlap: " . $_SESSION['shiftsize'] . "</td>";
+echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
+echo "<td width=\"200\">Overlap: " . $_SESSION['chunksize'] + $_SESSION['shiftsize'] . "</td>";
 echo "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>";
 echo "<tr><td width=\"200\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
 echo "<td colspan=\"2\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr></table>";
@@ -246,8 +247,15 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 
 	// Make the text an array and chunk it
 	$textarray = explode(" ", $text);
-	$chunkarray = cutter($textarray, $chunksize, $shiftsize, $lastprop);
 
+	if ($_SESSION['chunkoption'] == "size") {
+		$chunkarray = cutter($textarray, $chunksize, $shiftsize, $lastprop);
+		$chunknumber = count($chunkarray);
+	}
+	else {
+		$chunksize = ceil(count($textarray)/$chunknumber);
+		$chunkarray = cutter($textarray, $chunksize, $chunksize, 0);
+	}
 // Build the output
 $i = 1;
 $padlength = intval(log10(count($chunkarray) * $chunksize)) + 1;
@@ -287,23 +295,6 @@ foreach($files as $file) {
 <form id="upload" action="upload.php" method="POST" enctype="multipart/form-data" onSubmit="return nochunksize();">
 
 <fieldset>
-<legend>Scrubbing Options</legend>
-<table width="350">
-<tr>
-<td width="50%"><input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label for="apostrophes">Keep Apostrophes</label></td>
-<td width="50%"><input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label for="hyphens">Keep Hyphens</label></td>
-</tr>
-</table>
-</fieldset>
-
-<fieldset>
-<legend>Chunk Settings</legend>
-<p><label for="chunksize">Chunk Size:</label> <input name="chunksize" id="chunksize" type="text" size="12"/> (No. words per chunk)</p>
-<p><label for="shiftsize">Overlap:</label> <input name="shiftsize" type="text" size="12" value="0"/> (No. words overlapping at chunk boundaries)</p>
-<p><label for="lastprop">Last Proportion:</label> <input name="lastprop" type="text" size="3" value="50"/>% (The proportion of chunksize the last chunk can be)</p>
-</fieldset>
-
-<fieldset>
 <legend>Bulk File Upload</legend>
 
 <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
@@ -313,6 +304,27 @@ foreach($files as $file) {
 	<div id="filedrag">Or drop files here</div>
 </div>
 
+</fieldset>
+
+<fieldset>
+<legend>Scrubbing Options</legend>
+<table width="350">
+<tr>
+<td width="50%"><input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
+<td width="50%"><input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td>
+</tr>
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Chunk Settings</legend>
+<label>Split by:</label>
+<input type="radio" name="chunkoption" value="size" checked="yes" onClick="hidechunkoption(1);">Chunk Size
+<input type="radio" name="chunkoption" value="number" onClick="hidechunkoption(2);">Number of Chunks
+<p><label>Chunk Size:</label> <input name="chunksize" id="chunksize" type="text" size="12"/> (No. words per chunk)</p>
+<p><label>Number of Chunks:</label> <input name="chunknumber" id="chunknumber" type="text" size="12" disabled/></p>
+<p><label>Overlap:</label> <input name="shiftsize" type="text" size="12" value="0"/> (No. words overlapping at chunk boundaries)</p>
+<p><label>Last Proportion:</label> <input name="lastprop" id="lastprop" type="text" size="3" value="50"/>% (The proportion of chunksize the last chunk can be)</p>
 </fieldset>
 
 <p><input type="submit" value="Scrub &amp; Chunk Files"/></p>
@@ -384,14 +396,34 @@ foreach($files as $file) {
 
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 function nochunksize()
 {
-	if (document.getElementById('chunksize').value == '')
+	if (document.getElementById('chunksize').value == '' && document.getElementById('chunknumber').value == '')
 	{
-		alert('Please enter a chunksize.')
+		alert('Please enter a chunk size or a number of chunks.')
 		return false;
 	}
+}
+function hidechunkoption(num) {
+
+    switch(num)
+    {
+    	case 1:
+    		var show = document.getElementById("chunksize");
+    		var hide = document.getElementById("chunknumber");
+    		break;
+    	case 2:
+    		var hide = document.getElementById("chunksize");
+    		var show = document.getElementById("chunknumber");
+    		break;
+    }
+    hide.disabled = true;
+    hide.value = "";
+    show.disabled = false;
+
+    var proportion = document.getElementById("lastprop");
+    proportion.disabled ? (proportion.disabled = false, proportion.value = '50') : (proportion.disabled = true, proportion.value = '');
 }
 </script>
 

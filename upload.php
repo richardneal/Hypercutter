@@ -6,9 +6,11 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 */
 session_start();
 $chunksize = (int)htmlspecialchars($_POST['chunksize']);
+$chunknumber = (int)htmlspecialchars($_POST['chunknumber']);
 $shiftsize = (int)htmlspecialchars($_POST['shiftsize']);
 $lastprop = (int)htmlspecialchars($_POST['lastprop']);
 $_SESSION['chunksize'] = $chunksize;
+$_SESSION['chunknumber'] = $chunknumber;
 $_SESSION['shiftsize'] = $chunksize - $shiftsize;
 $_SESSION['lastprop'] = $lastprop / 100;
 if(isset($_POST['apostrophes']) && $_POST['apostrophes'] == 'yes') {
@@ -21,6 +23,7 @@ if(isset($_POST['hyphens']) && $_POST['hyphens'] == 'yes') {
 } else {
 	$_SESSION['hyphens'] = 'no';
 }
+$_SESSION['chunkoption'] = $_POST['chunkoption'];
 
 $fn = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
 $uploaded_files = array();
