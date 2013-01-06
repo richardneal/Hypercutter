@@ -29,7 +29,7 @@ $output = $_POST['output'];
 $title  = $_POST['name'];
 $type = "tsv";
 
-$rArgs = "$file $method $metric $output \"$title\"";
+$rArgs = "$file $method $metric $output \"$title\" $type";
 
 $stdout= callR( "clustr.r", "$rArgs" );
 
