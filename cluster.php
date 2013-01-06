@@ -33,7 +33,7 @@ $labelfile = NULL;
 $scrubtags = " ";
 $divitags = " ";
 
-$rArgs = "$file $method $metric $output \"$title\" $p $type $labelFile $scrubtags $divitags";
+$rArgs = "$file $method $metric $output \"$title\" $p $type $labelfile $scrubtags $divitags";
 
 $stdout= callR( "clustr.r", "$rArgs" );
 
