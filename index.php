@@ -244,11 +244,12 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 
 // Build the output
 $i = 1;
+$padlength = intval(log10(count($chunkarray) * $chunksize)) + 1;
 foreach ($chunkarray as $range=>$tokens) {
  	$outrange = str_replace("..", "-", $range);
 	$printrange = str_replace("..", " to ", $range);
 	$outfile = rtrim($sourcefile, ".txt") . $i . "_" . $outrange . ".txt";
-	$header = "Chunk " . $i . ": Tokens " . $printrange . " (" . $outfile . ")";
+	$header = "Chunk " . str_pad($i, $padlength, "0", STR_PAD_LEFT) . ": Tokens " . $printrange . " (" . $outfile . ")";
 	echo "<b>" . $header . "</b><br>";
 	$str = implode(" ", $tokens);
 	echo $str;
