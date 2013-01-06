@@ -6,7 +6,11 @@ session_start();
 		if(is_file($file))
 		unlink($file); // delete file
 	}
-
+	$files = glob('files/r/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
 	if(is_file('files/merge.tsv'))
 	unlink('files/merge.tsv');
 
