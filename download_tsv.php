@@ -2,6 +2,13 @@
 require_once("merge.php");
 session_start();
 
+if (isset($_POST["transpose"])) {
+	transpose();
+}
+else {
+	merge();
+}
+
 header("Pragma: public");
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
