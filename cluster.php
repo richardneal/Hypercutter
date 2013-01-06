@@ -29,8 +29,11 @@ $output = $_POST['output'];
 $title  = $_POST['name'];
 $p = 2;
 $type = "tsv";
+$labelfile = NULL;
+$scrubtags = " ";
+$divitags = " ";
 
-$rArgs = "$file $method $metric $output \"$title\" $p $type";
+$rArgs = "$file $method $metric $output \"$title\" $p $type $labelFile $scrubtags $divitags";
 
 $stdout= callR( "clustr.r", "$rArgs" );
 
