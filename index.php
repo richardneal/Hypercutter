@@ -5,7 +5,10 @@ session_start();
 	foreach($files as $file) {
 		if(is_file($file))
 		unlink($file); // delete file
-	}	
+	}
+	if(is_file('files/merge.tsv'))
+	unlink('files/merge.tsv');
+
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	unset($_SESSION['uploaded_files']);

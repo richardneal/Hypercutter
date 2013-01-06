@@ -21,7 +21,7 @@ foreach ($all_chunks as $chunk_file_name) {
 $tsv_array = $hash_table->export();
 $tsv = implode("\t", $tsv_array);
 
-file_put_contents("merge.tsv", $tsv);
+file_put_contents("files/merge.tsv", $tsv);
 
 header("Pragma: public");
 header("Expires: 0");
@@ -34,7 +34,7 @@ header("Content-Transfer-Encoding: binary");
 while (ob_get_level()) {
      ob_end_clean();
 }
-@readfile("merge.tsv");
+@readfile("files/merge.tsv");
 
 class Hash
 {
@@ -81,7 +81,7 @@ class Hash
 				}
 			}
 		}
-		
+
 		return $print_array;
 	}
 }
