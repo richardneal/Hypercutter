@@ -81,10 +81,8 @@ $stdout=explode(",<r>,",$stdout);
 	
 $file = $stdout[0];
 
-echo $file;
-
 $out = openfile( $file, "b" );
 
-//downloadString($out,"$title.pdf","pdf",false);
+downloadString($out,"$title.pdf","pdf",false);
 
 ?>
