@@ -68,6 +68,7 @@ class Hash
 				}
 			}
 		}
+		array_push($print_array, "\n");
 
 		return $print_array;
 	}
