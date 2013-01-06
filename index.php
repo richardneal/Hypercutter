@@ -6,8 +6,12 @@ session_start();
 		if(is_file($file))
 		unlink($file); // delete file
 	}
+
 	if(is_file('files/merge.tsv'))
 	unlink('files/merge.tsv');
+
+	if(is_file('chunks.zip'))
+	unlink('chunks.zip');
 
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
@@ -51,6 +55,17 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 			hide: 'drop'
         });
 		$('#about').click(function(){ $('#dialog-modal').dialog('open'); });
+    });
+ $(function() {
+        $( "#cluster-modal" ).dialog({
+			autoOpen: false,
+            height: 500,
+			width: 700,
+            modal: true,
+			show: 'slide',
+			hide: 'drop'
+        });
+		$('#cluster').click(function(){ $('#cluster-modal').dialog('open'); });
     });
 </script>
 </head>
@@ -183,9 +198,10 @@ foreach (glob("$directory/*.txt") as $filename) {
 
 	}
 
-echo '<p><a href="index.php?action=clear">Start Over</a>&nbsp;&nbsp;
+echo '<p><button id="cluster">Generate Dendogram</button></p>
+<p><a href="index.php?action=clear">Start Over</a>&nbsp;&nbsp;
 <a href="chunks.php">Download Chunks</a>&nbsp;&nbsp;
-<a href="merge.php">Download Merged TSV</a></p>';
+<a href="download_tsv.php">Download Merged TSV</a></p>';
 
 echo "<hr>";
 echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>Chunk Size: " . $_SESSION['chunksize'] . "</td>";
@@ -321,6 +337,42 @@ foreach($files as $file) {
         <li>A better progress bar is needed because it is hard to see when the fade-in one is finished.</li>
 	<li>The downloadable zip archive only contains files of chunked texts. The next step will be to generate the stats &agrave; la Divitext.</li>
 	</ol>
+</div>
+
+<div id="cluster-modal" title="Generate Dendogram">
+    <form id="cluster" action="cluster.php" method="POST">
+
+	<fieldset>
+	<legend>Dendogram Options</legend>
+	
+	<p><label for="name">Name:</label> <input name="name" type="text" size="12"/></p>
+	<p><label for="method">Linkage Method:</label>
+	<select name="method">
+  		<option value="average">Average</option>
+		<option value="ward">Ward</option>
+		<option value="single">Single</option>
+		<option value="complete">Complete</option>
+		<option value="mcquitty">McQuitty</option>
+		<option value="median">Median</option>
+		<option value="centroid">Centroid</option>
+	</select>
+	<p><label for="metric">Distance Metric:</label>
+	<select name="metric">
+  		<option value="euclidean">Euclidean</option>
+		<option value="maximum">Maximum</option>
+		<option value="manhattan">Manhattan</option>
+		<option value="canberra">Canberra</option>
+		<option value="binary">Binary</option>
+		<option value="minkowski">Minkowski</option>
+	</select>
+	<p><label for="output">Clustering Output Type:</label>
+	<select name="output">
+  		<option value="pdf">PDF</option>
+		<option value="phyloxml">PhyloXML</option>
+	</select>
+	</fieldset>
+	<p><input type="submit" value="Get Dendogram"/></p>
+	</form>
 </div>
 
 </div>
