@@ -384,13 +384,6 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	}
 
 
-	/*
-	foreach ($chunkarray as $chunk) {
-		$wordcount = count_words(&$chunk);
-	}
-
-	*/
-
 // Build the output
 $i = 1;
 $padlength = intval(log10(count($chunkarray))) + 1;
@@ -420,15 +413,8 @@ foreach ($chunkarray as $range=>$tokens) {
 		mkdir('files/tsvs/' . session_id());
 	}
 	$tsvdirectory = "files/tsvs/" . session_id() . "/";
-	
-	//$tsvarray = array();
 	hash_sort($wordcount, 'c');
 	$outtsv = http_build_query($wordcount, '', ',');
-	/*
-	foreach ($wordcount as $word => $count) {
-		$tsvarray[] = array($word, $count);
-	}
-	*/
 	$tsvfile = $tsvdirectory . $outfile . ".tsv";
 	file_put_contents($tsvfile, $outtsv);
 
