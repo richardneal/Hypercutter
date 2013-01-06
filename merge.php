@@ -31,9 +31,9 @@ foreach ($all_hash as $chunkname => $hash) {
 	foreach ($uniquewords as $word) {
 		$count = @$all_hash[$chunkname][$word];
 		$count = $count ? $count : 0;
-		$line .= '\t' . $count;
+		$line .= "\t" . $count;
 	}
-	$merge .= $line . '\n';
+	$merge .= $line . "\n";
 }
 file_put_contents("files/merge.tsv", $merge);
 
