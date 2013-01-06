@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 session_start();
 	// For testing, automatically empty the chunks folder on load
@@ -1091,5 +1090,4 @@ function hidechunkoption(num) {
 </script>
 
 </body>
->>>>>>> Visual changes.
 </html>
