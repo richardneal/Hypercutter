@@ -63,7 +63,11 @@ require_once("merge.php");
 
 transpose();
 
-$directory = getcwd() . "/sessions/" . session_id();
+if (!is_dir('sessions/' . session_id() . '/r/')) {
+    mkdir('sessions/' . session_id() . '/r/');
+}
+
+$directory = getcwd() . "/sessions/" . session_id() . "/r/";
 $file = getcwd() . "/sessions/" . session_id() . "/merge.tsv";
 //$file = getcwd() . "/mergediv.tsv";
 $method = $_POST['method'];
