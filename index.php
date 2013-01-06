@@ -358,18 +358,20 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	}
 	
 	// Remove punctuation
+	$apos = $_SESSION['apostrophes'];
+	$hyphens = $_SESSION['hyphens'];
 	switch(true) {
-	case $_SESSION['apostrophes'] == 'no' && $_SESSION['hyphens'] == 'yes': // Remove all punctuation except hyphens
-		$text = trim(preg_replace("#((?![\-])\pP)+#", ' ', $text));
+	case apos == 'no' && $hyphens == 'yes': // Remove all punctuation except hyphens
+		$text = trim(preg_replace("#((?![-])\pP)+#", ' ', $text));
 	break;
-	case $_SESSION['apostrophes'] == 'yes' && $_SESSION['hyphens'] == 'no': // Remove all punctuation except apostrophes
-		$text = trim(preg_replace("#((?![\'])\pP)+#", ' ', $text));
+	case $apos == 'yes' && $hyphens == 'no': // Remove all punctuation except apostrophes
+		$text = trim(preg_replace("#((?!['])\pP)+#", ' ', $text));
 	break;
-	case $_SESSION['apostrophes'] == 'yes' && $_SESSION['hyphens'] == 'yes': // Remove all punctuation except apostrophes and hyphens
-		$text = trim(preg_replace("#((?![\'\-])\pP)+#", ' ', $text));
+	case $apos == 'yes' && $hyphens == 'yes': // Remove all punctuation except apostrophes and hyphens
+		$text = trim(preg_replace("#((?!['-])\pP)+#", ' ', $text));
 	break;
 	default: // Remove all punctuation
-              $text = trim(preg_replace("#((?)\pP)+#", ' ', $text));
+        $text = trim(preg_replace("#[^\p{L}\p{N}]+#u", ' ', $text));
 	}
 
 	// Make the text an array and chunk it
