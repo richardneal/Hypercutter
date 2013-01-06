@@ -16,7 +16,7 @@ type <- args[7];
 labelFile <- args[8];
 scrubtags <- args[9];
 divitags <- args[10];
-directory <- args[11];
+directory <- args[10];
 
 filename <- paste(directory,"rcluster",runif(1), sep="" );
 
