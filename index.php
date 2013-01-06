@@ -1,6 +1,7 @@
 <?php
 session_start();
 	// For testing, automatically empty the chunks folder on load
+/*
 	$files = glob('files/chunks/*'); // get all file names
 	foreach($files as $file) {
 		if(is_file($file))
@@ -21,34 +22,26 @@ session_start();
 
 	if(is_file('chunks.zip'))
 	unlink('chunks.zip');
+	*/
 
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	unset($_SESSION['uploaded_files']);
-	$files = glob('uploads/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('uploads/' . session_id())) {
-		rmdir('uploads/' . session_id());
-	}
 
-	$files = glob('files/chunks/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('files/chunks/' . session_id())) {
-		rmdir('files/chunks/' . session_id());
-	}
-	$files = glob('files/tsvs/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('files/tsvs/' . session_id())) {
-		rmdir('files/tsvs/' . session_id());
+	$folders = glob('sessions/' . session_id() . '/*');
+
+	foreach ($folders as $folder) {
+		if(is_dir($folder)) {
+			$files = glob($folder . '/*');
+			foreach($files as $file) {
+				if(is_file($file))
+				unlink($file); // delete file
+			}
+			rmdir($folder);
+		}
+		else {
+			unlink($folder);
+		}
 	}
 }
 ?>
@@ -141,7 +134,7 @@ if(isset($_SESSION['uploaded_files'])) {
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
-$directory = "hypercutter/uploads/" . session_id();
+$directory = "hypercutter/sessions/" . session_id() . "/uploads/" ;
 $chunksize = $_SESSION['chunksize'];
 $chunknumber = $_SESSION['chunknumber'];
 $shiftsize = $_SESSION['shiftsize'];
@@ -335,7 +328,7 @@ echo "<hr>";
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
-	$text = file_get_contents('uploads/'.session_id().'/'.$sourcefile);
+	$text = file_get_contents('sessions/'.session_id().'/uploads/'.$sourcefile);
 
 	// Scrub the text
 	// Replace accented characters
@@ -403,20 +396,20 @@ foreach ($chunkarray as $range=>$tokens) {
 	$i++;
 	// Write the header and string to a file here.
 	$out = $header . "\n" . $str;
-	if (!is_dir('files/chunks/' . session_id())) {
-		mkdir('files/chunks/' . session_id());
+	if (!is_dir('sessions/' . session_id() . '/chunks/')) {
+		mkdir('sessions/' . session_id() . '/chunks/');
 	}
-	$outdirectory = "files/chunks/" . session_id() . "/"; // Needs a directory path
+	$outdirectory = 'sessions/' . session_id() . '/chunks/'; // Needs a directory path
 	$chunkfile = $outdirectory . $outfile . ".txt";
 	file_put_contents($chunkfile, $out);
 
 
 
 	$wordcount = count_words($tokens);
-	if (!is_dir('files/tsvs/' . session_id())) {
-		mkdir('files/tsvs/' . session_id());
+	if (!is_dir('sessions/' . session_id() . "/tsvs/")) {
+		mkdir('sessions/' . session_id() . "/tsvs/");
 	}
-	$tsvdirectory = "files/tsvs/" . session_id() . "/";
+	$tsvdirectory = "sessions/" . session_id() . "/tsvs/";
 	hash_sort($wordcount, 'c');
 	$outtsv = http_build_query($wordcount, '', ',');
 	$tsvfile = $tsvdirectory . $outfile . ".tsv";
@@ -428,7 +421,7 @@ foreach ($chunkarray as $range=>$tokens) {
 echo "<hr><hr>";
 
 // Output generated, so delete the file uploads
-$files = glob('hypercutter/uploads/' . session_id() . '/*'); // get all file names
+$files = glob('hypercutter/sessions/' . session_id() . '/uploads/*'); // get all file names
 foreach($files as $file) {
 	if(is_file($file))
 	unlink($file); // delete file

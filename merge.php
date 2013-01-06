@@ -2,7 +2,7 @@
 session_start();
 
 function transpose(){
-	$all_tsvs = glob("files/tsvs/" . session_id() . "/*");
+	$all_tsvs = glob("sessions/" . session_id() . "/tsvs/*");
 	$all_hash = array();
 
 	foreach ($all_tsvs as $tsv_file)
@@ -35,11 +35,11 @@ function transpose(){
 		}
 		$merge .= "$line\n";
 	}
-	file_put_contents("files/merge.tsv", $merge);
+	file_put_contents("sessions/" . session_id() . "/merge.tsv", $merge);
 }
 
 function merge(){
-	$all_tsvs = glob("files/tsvs/" . session_id() . "/*");
+	$all_tsvs = glob("sessions/" . session_id() . "/tsvs/*");
 	$all_hash = array();
 
 	foreach ($all_tsvs as $tsv_file)
@@ -73,7 +73,7 @@ function merge(){
 		}
 		$merge .= "$line\n";
 	}
-	file_put_contents("files/merge.tsv", $merge);
+	file_put_contents("sessions/" . session_id() . "/merge.tsv", $merge);
 }
 
 

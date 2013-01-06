@@ -63,7 +63,7 @@ require_once("merge.php");
 
 transpose();
 
-$file = getcwd() . "/files/merge.tsv";
+$file = getcwd() . "sessions/" . session_id() . "/merge.tsv";
 //$file = getcwd() . "/mergediv.tsv";
 $method = $_POST['method'];
 $metric = $_POST['metric'];

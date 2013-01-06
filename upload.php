@@ -28,10 +28,13 @@ $_SESSION['chunkoption'] = $_POST['chunkoption'];
 $fn = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
 $uploaded_files = array();
 
-if (!is_dir('uploads/' . session_id())) {
-	mkdir('uploads/' . session_id());
+if (!is_dir('sessions/' . session_id())) {
+	mkdir('sessions/' . session_id());
 }
-$directory = 'uploads/' . session_id() . '/';
+if (!is_dir('sessions/' . session_id() . '/uploads/')) {
+	mkdir('sessions/' . session_id() . '/uploads/');
+}
+$directory = 'sessions/' . session_id() . '/uploads/';
 
 if ($fn) {
 
