@@ -20,6 +20,7 @@ foreach ($all_chunks as $chunk_file_name) {
 }
 $tsv_array = $hash_table->export();
 $tsv = implode("\t", $tsv_array);
+$tsv = str_replace("\t\n", "\n", $tsv);
 
 file_put_contents("files/merge.tsv", $tsv);
 
