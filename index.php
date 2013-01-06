@@ -319,7 +319,7 @@ foreach($files as $file) {
 <fieldset>
 <legend>Chunk Settings</legend>
 <label>Split by:</label>
-<input type="radio" name="chunkoption" value="size" checked="yes" onClick="hidechunkoption(1);">Chunk Size
+<input type="radio" name="chunkoption" value="size" checked onClick="hidechunkoption(1);">Chunk Size
 <input type="radio" name="chunkoption" value="number" onClick="hidechunkoption(2);">Number of Chunks
 <p><label>Chunk Size:</label> <input name="chunksize" id="chunksize" type="text" size="12"/> (No. words per chunk)</p>
 <p><label>Number of Chunks:</label> <input name="chunknumber" id="chunknumber" type="text" size="12" disabled/></p>
@@ -364,8 +364,8 @@ foreach($files as $file) {
 	<fieldset>
 	<legend>Dendogram Options</legend>
 	
-	<p><label for="name">Name:</label> <input name="name" type="text" size="12"/></p>
-	<p><label for="method">Linkage Method:</label>
+	<p><label>Name:</label> <input name="name" type="text" size="12"/></p>
+	<p><label>Linkage Method:</label>
 	<select name="method">
   		<option value="average">Average</option>
 		<option value="ward">Ward</option>
@@ -375,7 +375,7 @@ foreach($files as $file) {
 		<option value="median">Median</option>
 		<option value="centroid">Centroid</option>
 	</select>
-	<p><label for="metric">Distance Metric:</label>
+	<p><label>Distance Metric:</label>
 	<select name="metric">
   		<option value="euclidean">Euclidean</option>
 		<option value="maximum">Maximum</option>
@@ -384,7 +384,7 @@ foreach($files as $file) {
 		<option value="binary">Binary</option>
 		<option value="minkowski">Minkowski</option>
 	</select>
-	<p><label for="output">Clustering Output Type:</label>
+	<p><label>Clustering Output Type:</label>
 	<select name="output">
   		<option value="pdf">PDF</option>
 		<option value="phyloxml">PhyloXML</option>
