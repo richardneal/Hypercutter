@@ -261,7 +261,7 @@ foreach($files as $file) {
 } else {
 ?>
 
-<form id="upload" action="upload.php" method="POST" enctype="multipart/form-data">
+<form id="upload" action="upload.php" method="POST" enctype="multipart/form-data" onSubmit="return nochunksize();">
 
 <fieldset>
 <legend>Scrubbing Options</legend>
@@ -275,7 +275,7 @@ foreach($files as $file) {
 
 <fieldset>
 <legend>Chunk Settings</legend>
-<p><label for="chunksize">Chunk Size:</label> <input name="chunksize" type="text" size="12"/> (No. words per chunk)</p>
+<p><label for="chunksize">Chunk Size:</label> <input name="chunksize" id="chunksize" type="text" size="12"/> (No. words per chunk)</p>
 <p><label for="shiftsize">Overlap:</label> <input name="shiftsize" type="text" size="12" value="0"/> (No. words overlapping at chunk boundaries)</p>
 <p><label for="lastprop">Last Proportion:</label> <input name="lastprop" type="text" size="3" value="50"/>% (The proportion of chunksize the last chunk can be)</p>
 </fieldset>
@@ -324,5 +324,17 @@ foreach($files as $file) {
 </div>
 
 </div>
+
+<script type="text/javascript" language="JavaScript">
+function nochunksize()
+{
+	if (document.getElementById('chunksize').value == '')
+	{
+		alert('Please enter a chunksize.')
+		return false;
+	}
+}
+</script>
+
 </body>
 </html>
