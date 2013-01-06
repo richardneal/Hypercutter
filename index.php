@@ -66,6 +66,43 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
         });
 		$('#about').click(function(){ $('#dialog-modal').dialog('open'); });
     });
+
+$(function() {
+        var file = $( "#swfileselect" );
+ 
+        $( "#dialog-stopwords" ).dialog({
+            autoOpen: false,
+            height: 300,
+            width: 400,
+            modal: true,
+			show: 'bounce',
+			hide: 'puff',
+            buttons: [{
+				//id: 'swupload',
+				//text: 'Upload'
+				//,
+				//click:
+				//	function(){
+						//alert("Stopword list: " + //document.getElementById('stopwordlist').value);
+						//$( this ).dialog( "close" );
+				//	}
+				//},
+				//{
+				text: 'Delete List',
+				click:
+					function() {
+						$("#stopwordlist").val("");
+						$(document).data("swlist", "");
+						$("#swmessages").empty();
+						//$( this ).dialog( "close" );
+					}
+				}
+			]
+        });
+ 
+        $('#stopwords').click(function(){ $('#dialog-stopwords').dialog('open'); });
+    });
+	
  $(function() {
         $( "#cluster-modal" ).dialog({
 			autoOpen: false,
@@ -254,11 +291,19 @@ echo '<p><button id="cluster">Generate Dendogram</button></p>
 <a href="download_tsv.php">Download Merged TSV</a></p>';
 
 echo "<hr>";
-echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
+echo "<table width=\"600\">";
+echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
+echo "<tr><td width=\"200\">", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
 echo "<td width=\"200\">Overlap: " . $_SESSION['shiftsize'] . "</td>";
 echo ($_SESSION['chunksize'] ? "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>" : "</tr>");
-echo "<tr><td width=\"200\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
-echo "<td colspan=\"2\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr></table>";
+echo "<tr><td width=\"100\">Preserve Case: " . $_SESSION['preserve_case'] . "</td>";
+echo "<td width=\"100\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
+echo "<td width=\"100\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr>";
+if ($_SESSION['stopwordlist'] != "none") {
+	$stopwords = $_SESSION['stopwordlist'];
+	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"alert('" . $stopwords . "')\">View List</a>)</td></tr>";
+}
+echo "</table>";
 echo "<hr>";
 
 // Loop through the source files and chunk each one.
@@ -381,11 +426,15 @@ foreach($files as $file) {
 <fieldset>
 <legend>Scrubbing Options</legend>
 <table width="350">
-<tr>
-<td width="50%"><input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
-<td width="50%"><input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td>
-</tr>
+<tr><td colspan="2"><input name="punctuation" type="checkbox" value="yes"/> <label for="punctuation" value="yes">Keep Punctuation</label></td></tr>
+<tr><td width="50%">&nbsp;&nbsp;&nbsp;<input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
+<td width="50%">&nbsp;&nbsp;&nbsp;<input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td></tr>
+<tr><td width="50%"><input name="numbers" type="checkbox" value="no"/> <label for="hyphens">Keep Numbers</label></td>
+<td width="50%"><input name="preserve_case" type="checkbox" value="no"/> <label for="hyphens">Preserve Case</label></td></tr>
+<tr><td width="50%"><a id="stopwords" href="#">Remove Stopwords</a> <img valign="bottom" src="templates/images/question_mark.png" alt="Question Mark" title="Click the link to upload stopword list (a text file with each stopword separated by a space or a comma)." /></td>
+<td width="50%"><a id="advanced" href="#">Advanced Options</a> <img valign="bottom" src="templates/images/question_mark.png" alt="Question Mark" title="Advanced options allow you to upload a list of token-lemma equivalents, a list of word or character equivalents to consolidate, rules for handling special characters, or custom regular expressions." /></td></tr>
 </table>
+<input type="hidden" id="stopwordlist" name="stopwordlist" value="" />
 </fieldset>
 
 <fieldset>
@@ -429,6 +478,21 @@ foreach($files as $file) {
 	<li>The downloadable zip archive only contains files of chunked texts. The next step will be to generate the stats &agrave; la Divitext.</li>
 	</ol>
 </div>
+
+		<div id="dialog-stopwords" title="Upload Stopword List">
+		
+				<label for="swfileselect">File to upload:</label>
+				<input type="file" id="swfileselect" name="swfileselect[]" />
+				<div id="swfiledrag"></div>
+		
+			<div id="swprogress"></div>
+
+			<div id="swmessages" style="font-size:10px;">
+				<!--<p>Status Messages</p>-->
+			</div>
+		</div>
+			<!-- Filedrag Script -->
+			<script src="templates/js/swfiledrag.js"></script>
 
 <div id="cluster-modal" title="Generate Dendogram">
     <form id="cluster" action="cluster.php" method="POST">
