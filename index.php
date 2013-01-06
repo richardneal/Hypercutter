@@ -18,6 +18,14 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 		rmdir('uploads/' . session_id());
 	}
 
+	$files = glob('files/chunks/' . session_id() . '/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
+	if (is_dir('files/chunks/' . session_id())) {
+		rmdir('files/chunks/' . session_id());
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -173,7 +181,8 @@ foreach (glob("$directory/*.txt") as $filename) {
 	}
 
 echo '<p><a href="index.php?action=clear">Start Over</a>&nbsp;&nbsp;
-<a href="chunks.php">Download Chunks</a></p>';
+<a href="chunks.php">Download Chunks</a>&nbsp;&nbsp;
+<a href="merge.php">Download Merged TSV</a></p>';
 
 echo "<hr>";
 echo "<table width=\"600\"><tr><td colspan=\"3\"><b>Options:</b></td></tr><tr><td>Chunk Size: " . $_SESSION['chunksize'] . "</td>";
