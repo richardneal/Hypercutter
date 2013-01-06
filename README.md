@@ -28,3 +28,4 @@ Bugs / Issues
 - I started adding a checkbox for lowercase, but I started messing everything up when I tried to make it checked by default, so maybe you can show me how with the way you're setting the session data?
 - There are some lingering problems with user sessions.
 - A few treeView options aren't working right now because I haven't put all the code there.
+- We need to find a way to clear files even if the user doesn't hit start over. I'm worried that what we have now might even delete things other users are currently using.

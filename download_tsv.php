@@ -20,6 +20,6 @@ header("Content-Transfer-Encoding: binary");
 while (ob_get_level()) {
      ob_end_clean();
 }
-@readfile("files/merge.tsv");
+@readfile("sessions/" . session_id() . "/merge.tsv");
 
 ?>
