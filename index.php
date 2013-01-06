@@ -55,6 +55,7 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
             height: 500,
 			width: 700,
             modal: true,
+            resizable: false,
 			show: 'slide',
 			hide: 'drop'
         });
@@ -66,8 +67,9 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
             height: 400,
 			width: 700,
             modal: true,
-			show: 'slide',
-			hide: 'drop'
+            resizable: false,
+			show: 'scale',
+			hide: 'scale'
         });
 		$('#cluster').click(function(){ $('#cluster-modal').dialog('open'); });
     });
