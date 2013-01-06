@@ -59,7 +59,7 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
  $(function() {
         $( "#cluster-modal" ).dialog({
 			autoOpen: false,
-            height: 500,
+            height: 400,
 			width: 700,
             modal: true,
 			show: 'slide',
