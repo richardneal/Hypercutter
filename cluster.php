@@ -63,11 +63,10 @@ require_once("merge.php");
 
 transpose();
 
-if (!is_dir('sessions/' . session_id() . '/r/')) {
-    mkdir('sessions/' . session_id() . '/r/');
+if (!is_dir('/r/')) {
+    mkdir('/r/');
 }
 
-$directory = "/sessions/" . session_id() . "/r/";
 $file = getcwd() . "/sessions/" . session_id() . "/merge.tsv";
 //$file = getcwd() . "/mergediv.tsv";
 $method = $_POST['method'];
@@ -80,7 +79,7 @@ $labelfile = NULL;
 $scrubtags = " ";
 $divitags = " ";
 
-$rArgs = "$file $method $metric $output \"$title\" $p $type $labelfile $scrubtags $divitags $directory";
+$rArgs = "$file $method $metric $output \"$title\" $p $type $labelfile $scrubtags $divitags";
 
 $stdout= callR( "clustr.r", "$rArgs" );
 
