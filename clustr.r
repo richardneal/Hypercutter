@@ -19,6 +19,7 @@ divitags <- args[10];
 directory <- args[10];
 
 filename <- paste(directory,"rcluster",runif(1), sep="" );
+setwd("/var/www/cs/html/hypercutter");
 sink("sink.txt")
 print(paste(title,directory));
 if(output == "phyloxml")
