@@ -240,7 +240,7 @@ foreach ($chunkarray as $range=>$tokens) {
 echo "<hr><hr>";
 
 // Output generated, so delete the file uploads
-$files = glob('hypercutter/uploads/*'); // get all file names
+$files = glob('hypercutter/uploads/' . session_id() . '/*'); // get all file names
 foreach($files as $file) {
 	if(is_file($file))
 	unlink($file); // delete file
