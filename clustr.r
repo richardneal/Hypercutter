@@ -19,7 +19,8 @@ divitags <- args[10];
 directory <- args[10];
 
 filename <- paste(directory,"rcluster",runif(1), sep="" );
-
+sink("sink.txt")
+print(paste(title,directory));
 if(output == "phyloxml")
 {
 	filename <- paste(filename, ".xml", sep="");
