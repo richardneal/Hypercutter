@@ -120,7 +120,9 @@ $(function() {
 <body>
 <div id="wrap">
 <h1>Hypercutter</h1>
-<p><button id="about">About This Tool</button></p>
+<table>
+<tr>
+<td><button id="about">About This Tool</button></td>
 <?php
 
 if(isset($_SESSION['uploaded_files'])) {
@@ -285,10 +287,22 @@ foreach (glob("$directory/*.txt") as $filename) {
 
 }
 
-echo '<p><button id="cluster">Generate Dendogram</button></p>
-<p><a href="index.php?action=clear">Start Over</a>&nbsp;&nbsp;
-<a href="chunks.php">Download Chunks</a>&nbsp;&nbsp;
-<a href="download_tsv.php">Download Merged TSV</a></p>';
+echo '<td><form action="index.php?action=clear" method="POST">
+<input type="submit" value="Start Over"/>
+</form></td></tr></table><p>
+<fieldset><legend>Download</legend>
+<table><tr>
+<td><button id="cluster">Dendogram</button></td>
+<td><form action="chunks.php" method="POST">
+<input type="submit" value="Chunks"/>
+</form></td>
+<td><form id="download_tsv" action="download_tsv.php" method="POST">
+<input type="submit" value="Merged TSV"/>
+<input name="transpose" type="checkbox" checked/> <label>Transpose</label>
+</form></td>
+</tr>
+</table>
+</fieldset></p>';
 
 echo "<hr>";
 echo "<table width=\"600\">";
@@ -410,7 +424,9 @@ foreach($files as $file) {
 // No session variable
 } else {
 ?>
-
+</tr>
+</table>
+<p></p>
 <form id="upload" action="upload.php" method="POST" enctype="multipart/form-data" onSubmit="return nochunksize();">
 
 <fieldset>
