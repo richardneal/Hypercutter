@@ -98,7 +98,7 @@ myCluster <- function(input.file , textlabs = NULL , chunksize = NULL ,
 		
 		subtitle <- paste(s.subtitle,"\n",d.subtitle,"\n",t.subtitle)
 
-		plot( as.dendrogram(hCluster), main=main, horiz=TRUE, cex=2, axes=FALSE, xlab="", sub=FALSE, cex.sub=.5);
+		plot( as.dendrogram(hCluster), main=main, horiz=TRUE, cex=2, axes=FALSE, xlab="", cex.sub=.5);
 		# to put the title on top:
 			# change ylab=main to main=main
 			# change font.lab=2 to font.main=2
