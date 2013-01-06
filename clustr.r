@@ -17,7 +17,7 @@ labelFile <- args[8];
 scrubtags <- args[9];
 divitags <- args[10];
 
-filename <- paste("/r/rcluster",runif(1), sep="" );
+filename <- paste("r/rcluster",runif(1), sep="" );
 
 if(output == "phyloxml")
 {
