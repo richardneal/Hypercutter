@@ -5,6 +5,21 @@ function callR( $r, $a = "" )
 	$cmd = escapeshellcmd( "Rscript $r $a" );
     return `$cmd`;
 }
+
+function openfile( $f = "", $m = "" )
+{
+    $contents = "";
+    if ( $f )
+    {
+        $FH = fopen( $f, "r$m" );
+        $contents = fread( $FH, filesize( $f ) );
+        fclose( $FH );
+    }
+
+    return $contents;
+}
+
+
 require_once("merge.php");
 
 $file = "files/merge.tsv";
