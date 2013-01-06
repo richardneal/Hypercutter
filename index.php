@@ -431,8 +431,8 @@ foreach($files as $file) {
 <td width="50%">&nbsp;&nbsp;&nbsp;<input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td></tr>
 <tr><td width="50%"><input name="numbers" type="checkbox" value="no"/> <label for="hyphens">Keep Numbers</label></td>
 <td width="50%"><input name="preserve_case" type="checkbox" value="no"/> <label for="hyphens">Preserve Case</label></td></tr>
-<tr><td width="50%"><a id="stopwords" href="#">Remove Stopwords</a> <img valign="bottom" src="templates/images/question_mark.png" alt="Question Mark" title="Click the link to upload stopword list (a text file with each stopword separated by a space or a comma)." /></td>
-<td width="50%"><a id="advanced" href="#">Advanced Options</a> <img valign="bottom" src="templates/images/question_mark.png" alt="Question Mark" title="Advanced options allow you to upload a list of token-lemma equivalents, a list of word or character equivalents to consolidate, rules for handling special characters, or custom regular expressions." /></td></tr>
+<tr><td width="50%"><a id="stopwords" href="#">Remove Stopwords</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload stopword list (a text file with each stopword separated by a space or a comma)." /></td>
+<td width="50%"><a id="advanced" href="#">Advanced Options</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Advanced options allow you to upload a list of token-lemma equivalents, a list of word or character equivalents to consolidate, rules for handling special characters, or custom regular expressions." /></td></tr>
 </table>
 <input type="hidden" id="stopwordlist" name="stopwordlist" value="" />
 </fieldset>
