@@ -62,7 +62,7 @@ function downloadString( $str, $name = "defaultname", $ext = null, $utf8 = true 
 require_once("merge.php");
 
 //$file = "files/merge.tsv";
-$file = "merge div.tsv";
+$file = "mergediv.tsv";
 $method = $_POST['method'];
 $metric = $_POST['metric'];
 $output = $_POST['output'];
