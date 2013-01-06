@@ -16,12 +16,10 @@ type <- args[7];
 labelFile <- args[8];
 scrubtags <- args[9];
 divitags <- args[10];
-directory <- args[10];
+directory <- args[11];
 
-filename <- paste(directory,"rcluster",runif(1), sep="" );
-setwd("/var/www/cs/html/hypercutter");
-sink("sink.txt")
-print(paste(title,directory));
+filename <- paste("/r/rcluster",runif(1), sep="" );
+
 if(output == "phyloxml")
 {
 	filename <- paste(filename, ".xml", sep="");
