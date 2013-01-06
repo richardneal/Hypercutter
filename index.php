@@ -296,9 +296,11 @@ echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
 echo "<tr><td width=\"200\">", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
 echo "<td width=\"200\">Overlap: " . $_SESSION['shiftsize'] . "</td>";
 echo ($_SESSION['chunksize'] ? "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>" : "</tr>");
-echo "<tr><td width=\"100\">Preserve Case: " . $_SESSION['preserve_case'] . "</td>";
+echo "<tr><td width=\"100\">Keep Punctuation: " . $_SESSION['punctuation'] . "</td>";
 echo "<td width=\"100\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
 echo "<td width=\"100\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr>";
+echo "<tr><td width=\"200\">Keep Numbers: " . $_SESSION['numbers'] . "</td>";
+echo "<td colspan=\"2\">Preserve Case: " . $_SESSION['preserve_case'] . "</td></tr>";
 if ($_SESSION['stopwordlist'] != "none") {
 	$stopwords = $_SESSION['stopwordlist'];
 	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"alert('" . $stopwords . "')\">View List</a>)</td></tr>";
@@ -426,11 +428,11 @@ foreach($files as $file) {
 <fieldset>
 <legend>Scrubbing Options</legend>
 <table width="350">
-<tr><td colspan="2"><input name="punctuation" type="checkbox" value="yes"/> <label for="punctuation" value="yes">Keep Punctuation</label></td></tr>
+<tr><td colspan="2"><input name="punctuation" type="checkbox" value="<?php echo isset($_SESSION['punctuation']) ? $_SESSION['punctuation'] = 'yes' : $_SESSION['punctuation'] = 'no'; ?>"/> <label for="punctuation" value="yes">Keep Punctuation</label></td></tr>
 <tr><td width="50%">&nbsp;&nbsp;&nbsp;<input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
 <td width="50%">&nbsp;&nbsp;&nbsp;<input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td></tr>
-<tr><td width="50%"><input name="numbers" type="checkbox" value="no"/> <label for="hyphens">Keep Numbers</label></td>
-<td width="50%"><input name="preserve_case" type="checkbox" value="no"/> <label for="hyphens">Preserve Case</label></td></tr>
+<tr><td width="50%"><input name="numbers" type="checkbox" value="<?php echo isset($_SESSION['numbers']) ? $_SESSION['numbers'] = 'yes' : $_SESSION['numbers'] = 'no'; ?>"/> <label for="numbers">Keep Numbers</label></td>
+<td width="50%"><input name="preserve_case" type="checkbox" value="<?php echo isset($_SESSION['preserve_case']) ? $_SESSION['preserve_case'] = 'yes' : $_SESSION['preserve_case'] = 'no'; ?>"/> <label for="preserve_case">Preserve Case</label></td></tr>
 <tr><td width="50%"><a id="stopwords" href="#">Remove Stopwords</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload stopword list (a text file with each stopword separated by a space or a comma)." /></td>
 <td width="50%"><a id="advanced" href="#">Advanced Options</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Advanced options allow you to upload a list of token-lemma equivalents, a list of word or character equivalents to consolidate, rules for handling special characters, or custom regular expressions." /></td></tr>
 </table>
