@@ -42,6 +42,14 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	if (is_dir('files/chunks/' . session_id())) {
 		rmdir('files/chunks/' . session_id());
 	}
+	$files = glob('files/tsvs/' . session_id() . '/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
+	if (is_dir('files/tsvs/' . session_id())) {
+		rmdir('files/tsvs/' . session_id());
+	}
 }
 ?>
 <!DOCTYPE html>
