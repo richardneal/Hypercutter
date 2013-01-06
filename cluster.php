@@ -27,6 +27,7 @@ $method = $_POST['method'];
 $metric = $_POST['metric'];
 $output = $_POST['output'];
 $title  = $_POST['name'];
+$type = "tsv";
 
 $rArgs = "$file $method $metric $output \"$title\"";
 
