@@ -6,7 +6,6 @@ Preliminary To-Do List
 
 Richard:
 
-1. Add diviText's merged tsv functionality.
 
 Scott:
 
@@ -18,6 +17,8 @@ Finished Features
 -----------------
 
 - Unique Sessions
+- Merged TSV Generation
+- Dendogram Generation
 
 Bugs / Issues
 -------------
