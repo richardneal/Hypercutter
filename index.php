@@ -258,7 +258,7 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	}
 // Build the output
 $i = 1;
-$padlength = intval(log10(count($chunkarray) * $chunksize)) + 1;
+$padlength = intval(log10(count($chunkarray)) + 1;
 foreach ($chunkarray as $range=>$tokens) {
  	$outrange = str_replace("..", "-", $range);
 	$printrange = str_replace("..", " to ", $range);
