@@ -330,10 +330,24 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	// Scrub the text
 	// Replace accented characters
 	$search = explode(",","ç,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø");
-	$replace = explode(",","c,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o");
+	$replace = explode(",","c,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o");	
 	$text = str_replace($search, $replace, $text);
+	
+		// Remove stopwords
+	if ($_SESSION['stopwordlist'] != "none") {
+		$text = str_replace($_SESSION['stopwordlist'], " ", $text);
+	}
+
 	// Convert to lowercase
-	$text = mb_convert_case($text, MB_CASE_LOWER, "UTF-8");
+	if ($_SESSION['preserve_case'] != "yes") {
+		$text = mb_convert_case($text, MB_CASE_LOWER, "UTF-8");
+	}
+
+	// Remove numbers
+	if ($_SESSION['numbers'] != "yes") {
+		$text = preg_replace("/[0-9]+/", ' ', $text);
+	}
+	
 	// Remove punctuation
 	switch(true) {
 	case $_SESSION['apostrophes'] == 'no' && $_SESSION['hyphens'] == 'yes': // Remove all punctuation except hyphens
