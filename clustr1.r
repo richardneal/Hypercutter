@@ -62,14 +62,14 @@ myCluster <- function(input.file , textlabs = NULL , chunksize = NULL ,
 
     # change the names of the labels
     #row.names(relFreq) <- c("a","b","c","d","e","f","g","h","i","j"...)
-	if (file.info(labelFile)$size!=0)
-	{
-	    tempLABELS <- read.csv(as.character(labelFile), sep=",", as.is=TRUE, header=FALSE);
-	    if (length(tempLABELS) == length(row.names(relFreq)))
-	    {
-	        row.names(relFreq) <- tempLABELS;
-	    }	
-    }
+	#if (file.info(labelFile)$size!=0)
+	#{
+	#    tempLABELS <- read.csv(as.character(labelFile), sep=",", as.is=TRUE, header=FALSE);
+	#    if (length(tempLABELS) == length(row.names(relFreq)))
+	#    {
+	#        row.names(relFreq) <- tempLABELS;
+	#    }	
+    #}
 
 
    
