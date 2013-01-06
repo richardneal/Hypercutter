@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+ini_set('memory_limit', '268435456');
+
 $hash_table = new Hash();
 
 $all_chunks = glob("files/chunks/" . session_id() . "/*");

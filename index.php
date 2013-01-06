@@ -297,7 +297,7 @@ foreach($files as $file) {
 <fieldset>
 <legend>Bulk File Upload</legend>
 
-<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="10000000" />
+<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000" />
 <div>
 	<label for="fileselect">Files to upload:</label>
 	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
