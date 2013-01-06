@@ -205,6 +205,44 @@ foreach (glob("$directory/*.txt") as $filename) {
 
 	}
 
+
+	function count_words( &$textarray ) 
+	{
+	    $wordcount = array();
+	    // iterate through the array of words and up the count
+	    foreach ( $textarray as $word ) 
+	    {
+	        if ( $word == "" )
+	            continue;
+	        $wordcount[ "$word" ] = isset( $wordcount[ "$word" ] ) ? 
+	                $wordcount[ "$word" ] + 1 : 1;
+	    }
+
+	    return $wordcount;
+
+	}
+
+	function hash_sort( &$hash, $sort ) {
+
+    if ( $sort == 'c' ) {
+
+        // grab array for word and counts
+        $word = array_keys( $hash );
+        $count = array_values( $hash );
+        
+        // sort the counts, then words in $hash
+        array_multisort( $count, SORT_DESC, $word, SORT_ASC, $hash );
+
+    }
+    else {
+
+        // sort by key, ie. the word name
+        ksort( $hash );
+
+    }
+
+}
+
 echo '<p><button id="cluster">Generate Dendogram</button></p>
 <p><a href="index.php?action=clear">Start Over</a>&nbsp;&nbsp;
 <a href="chunks.php">Download Chunks</a>&nbsp;&nbsp;
@@ -256,13 +294,22 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 		$chunksize = ceil(count($textarray)/$chunknumber);
 		$chunkarray = cutter($textarray, $chunksize, $chunksize, 0);
 	}
+
+
+	/*
+	foreach ($chunkarray as $chunk) {
+		$wordcount = count_words(&$chunk);
+	}
+
+	*/
+
 // Build the output
 $i = 1;
 $padlength = intval(log10(count($chunkarray))) + 1;
 foreach ($chunkarray as $range=>$tokens) {
  	$outrange = str_replace("..", "-", $range);
 	$printrange = str_replace("..", " to ", $range);
-	$outfile = rtrim($sourcefile, ".txt") . str_pad($i, $padlength, "0", STR_PAD_LEFT) . "_" . $outrange . ".txt";
+	$outfile = rtrim($sourcefile, ".txt") . str_pad($i, $padlength, "0", STR_PAD_LEFT) . "_" . $outrange;
 	$header = "Chunk " . str_pad($i, $padlength, "0", STR_PAD_LEFT) . ": Tokens " . $printrange . " (" . $outfile . ")";
 	echo "<b>" . $header . "</b><br>";
 	$str = implode(" ", $tokens);
@@ -275,8 +322,28 @@ foreach ($chunkarray as $range=>$tokens) {
 		mkdir('files/chunks/' . session_id());
 	}
 	$outdirectory = "files/chunks/" . session_id() . "/"; // Needs a directory path
-	$outfile = $outdirectory . $outfile;
-	file_put_contents($outfile, $out);		
+	$chunkfile = $outdirectory . $outfile . ".txt";
+	file_put_contents($chunkfile, $out);
+
+
+
+	$wordcount = count_words($tokens);
+	if (!is_dir('files/tsvs/' . session_id())) {
+		mkdir('files/tsvs/' . session_id());
+	}
+	$tsvdirectory = "files/tsvs/" . session_id() . "/";
+	
+	//$tsvarray = array();
+	hash_sort($wordcount, 'c');
+	$outtsv = http_build_query($wordcount, '', ',');
+	/*
+	foreach ($wordcount as $word => $count) {
+		$tsvarray[] = array($word, $count);
+	}
+	*/
+	$tsvfile = $tsvdirectory . $outfile . ".tsv";
+	file_put_contents($tsvfile, $outtsv);
+
 }
 
 }

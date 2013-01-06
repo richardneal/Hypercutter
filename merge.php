@@ -1,8 +1,43 @@
 <?php
 session_start();
 
-//ini_set('memory_limit', '268435456');
+$all_tsvs = glob("files/tsvs/" . session_id() . "/*");
 
+$all_hash = array();
+foreach ($all_tsvs as $tsv_file)
+{
+	$txtname = basename($tsv_file, ".tsv");
+	$all_hash[$txtname] = array();
+	$file = fopen($tsv_file, 'r');
+	$hash = fgetcsv($file);
+	foreach ($hash as $set) {
+		list($word, $count) = explode("=", $set);
+		$all_hash[$txtname][$word] = $count;
+	}
+}
+
+$allwords = null;
+foreach ($all_hash as $hash)
+{
+	$hashkeys = array_keys($hash);
+	$allwords = array_merge($hashkeys, (array)$allwords);
+}
+$uniquewords = array_unique($allwords);
+
+$merge = "Transposed\t";
+$merge .= implode("\t", $uniquewords) . "\n";
+foreach ($all_hash as $chunkname => $hash) {
+	$line = $chunkname;
+	foreach ($uniquewords as $word) {
+		$count = @$all_hash[$chunkname][$word];
+		$count = $count ? $count : 0;
+		$line .= '\t' . $count;
+	}
+	$merge .= $line . '\n';
+}
+file_put_contents("files/merge.tsv", $merge);
+
+/*
 $hash_table = new Hash();
 
 $all_chunks = glob("files/chunks/" . session_id() . "/*");
@@ -76,5 +111,5 @@ class Hash
 		return $print_array;
 	}
 }
-
+*/
 ?>
