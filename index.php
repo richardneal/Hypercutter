@@ -201,7 +201,7 @@ echo "<hr>";
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
-	$text = file_get_contents('sessions/'.session_id().'/uploads/'.$sourcefile);
+	$text = file_get_contents('sessions/' . session_id() . '/uploads/' . $sourcefile);
 
 	// Scrub the text
 	// Replace accented characters
@@ -228,7 +228,7 @@ foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	$apos = $_SESSION['apostrophes'];
 	$hyphens = $_SESSION['hyphens'];
 	switch(true) {
-	case apos == 'no' && $hyphens == 'yes': // Remove all punctuation except hyphens
+	case $apos == 'no' && $hyphens == 'yes': // Remove all punctuation except hyphens
 		$text = trim(preg_replace("#((?![-])\pP)+#", ' ', $text));
 	break;
 	case $apos == 'yes' && $hyphens == 'no': // Remove all punctuation except apostrophes
