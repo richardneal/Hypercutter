@@ -450,8 +450,8 @@ foreach($files as $file) {
 <legend>Scrubbing Options</legend>
 <table width="350">
 <tr><td colspan="2"><input name="punctuation" type="checkbox" value="<?php echo isset($_SESSION['punctuation']) ? $_SESSION['punctuation'] = 'yes' : $_SESSION['punctuation'] = 'no'; ?>"/> <label for="punctuation" value="yes">Keep Punctuation</label></td></tr>
-<tr><td width="50%">&nbsp;&nbsp;&nbsp;<input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
-<td width="50%">&nbsp;&nbsp;&nbsp;<input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td></tr>
+<tr><td width="50%"><input name="apostrophes" type="checkbox" value="<?php echo isset($_SESSION['apostrophes']) ? $_SESSION['apostrophes'] = 'yes' : $_SESSION['apostrophes'] = 'no'; ?>"/> <label>Keep Apostrophes</label></td>
+<td width="50%"><input name="hyphens" type="checkbox" value="<?php echo isset($_SESSION['hyphens']) ? $_SESSION['hyphens'] = 'yes' : $_SESSION['hyphens'] = 'no'; ?>"/> <label>Keep Hyphens</label></td></tr>
 <tr><td width="50%"><input name="numbers" type="checkbox" value="<?php echo isset($_SESSION['numbers']) ? $_SESSION['numbers'] = 'yes' : $_SESSION['numbers'] = 'no'; ?>"/> <label for="numbers">Keep Numbers</label></td>
 <td width="50%"><input name="preserve_case" type="checkbox" value="<?php echo isset($_SESSION['preserve_case']) ? $_SESSION['preserve_case'] = 'yes' : $_SESSION['preserve_case'] = 'no'; ?>"/> <label for="preserve_case">Preserve Case</label></td></tr>
 <tr><td width="50%"><a id="stopwords" href="#">Remove Stopwords</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a stopword list (a text file with each stopword separated by a space or a comma)." /></td>
