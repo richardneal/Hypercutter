@@ -623,7 +623,7 @@ echo '"/>';
 <input type="hidden" id="commonlist" name="commonlist" value="" />
 <input type="hidden" id="entityrulesopts" name="entityrulesopts" value="default" />
 </fieldset>
-<!-- All values are defined in the form. Modal dialog uploads will call javascript functions to update the values prior to submission of the form. These functions are in individualised versions of filedrag.js. Next I need to figure out what to do about the damn tag detection. Perhaps stick into the filedrag script a regex which unhides the strip tags fields. At the end, I can perhaps change consolidations to custom regex. -->
+<!-- All values are defined in the form. Modal dialog uploads will call javascript functions to update the values prior to submission of the form. These functions are in individualised versions of filedrag.js. I think the consolidations function should be replaced with a custom regex pattern function. It's almost the same thing. -->
 
 
 <fieldset>
