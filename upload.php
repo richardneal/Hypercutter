@@ -13,7 +13,13 @@ $_SESSION['lowercasebox'] = $_POST['lowercasebox'];
 $_SESSION['stopwordlist'] = $_POST['stopwordlist'];
 $_SESSION['lemmalist'] = $_POST['lemmalist'];
 $_SESSION['consolidationslist'] = $_POST['consolidationslist'];
-$_SESSION['specialcharslist'] = $_POST['specialcharslist'];
+// Define the specialchars list either from an upload or a pre-defined set
+if ($_POST['specialcharslist'] !="") {
+	$_SESSION['specialcharslist'] = $_POST['specialcharslist'];
+} else {
+	$entityrulesfile = "entityrules/" . $_POST["entityrulesopts"]."txt";
+	$_SESSION['specialcharslist'] = file_get_contents($entityrulesfile);
+}
 $_SESSION['commonlist'] = $_POST['commonlist'];
 $chunksize = (int)htmlspecialchars($_POST['chunksize']);
 $chunknumber = (int)htmlspecialchars($_POST['chunknumber']);

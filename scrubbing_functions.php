@@ -116,7 +116,7 @@ function formatSpecial($text, $formatspecial, $specials, $common, $lowercase) {
 		return $text;
 	}
 	else {
-		if ($formatspecial == "on") {
+		//if ($formatspecial == "on") { // Function runs by default right now
 			$allSpecials = array();
 			$allSpecialKEYS = array();
 
@@ -131,14 +131,15 @@ function formatSpecial($text, $formatspecial, $specials, $common, $lowercase) {
 			}
 
 			$text = preg_replace($allSpecialKEYS, $allSpecials, $text);
-		}
+		//}
 
-		if ($common == "on") {
+		// De-activated for different implementation
+		//if ($common == "on") {
 			// HTML entities and thorn added
-			$commonchararray = array("&ae;", "&d;", "&t;", "&e;", , "&#0541;", "&AE;", "&D;", "&T;", "&aelig;", "&eth;", "&thorn;", "&e;", "&AElig;", "&ETH;", "&THORN;", "&#0540;");
-			$commonuniarray = array("æ", "ð", "þ", "e", "ȝ". "Æ", "Ð", "Þ", "æ", "ð", "þ", "Æ", "Ð", "Þ", "Ȝ");
-			$text = str_replace($commonchararray, $commonuniarray, $text);
-		}
+		//	$commonchararray = array("&ae;", "&d;", "&t;", "&e;", , "&#0541;", "&AE;", "&D;", "&T;", "&aelig;", "&eth;", "&thorn;", "&e;", "&AElig;", "&ETH;", "&THORN;", "&#0540;");
+		//	$commonuniarray = array("æ", "ð", "þ", "e", "ȝ". "Æ", "Ð", "Þ", "æ", "ð", "þ", "Æ", "Ð", "Þ", "Ȝ");
+		//	$text = str_replace($commonchararray, $commonuniarray, $text);
+		//}
 
 		return $text;
 	}
@@ -267,5 +268,4 @@ $consolidations = $_SESSION["consolidationslist"];
 $specials = $_SESSION["specialcharslist"];
 
 $text = scrub_text($file, $formatting, $tags, $punctuation, $apos, $hyphens, $digits, $removeStopWords, $lemmatize, $consolidate, $formatspecial, $lowercase, $common, $stopwords, $lemmas, $consolidations, $specials);
-//$_SESSION["scrubbed"] = scrub_text($file, $formatting, $tags, $punctuation, $apos, $hyphens, $digits, $removeStopWords, $lemmatize, $consolidate, $formatspecial, $lowercase, $common, $stopwords, $lemmas, $consolidations, $specials);
 ?>
