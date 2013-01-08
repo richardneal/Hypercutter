@@ -221,7 +221,7 @@ function scrub_text($string, $formatting, $tags, $punctuation, $apos, $hyphens, 
 	return $string;
 }
 
-// $formatting = ""; //Disabled pending development
+$formatting = "";
 $punctuation = "";
 $apos = "";
 $hyphens = "";
@@ -233,10 +233,9 @@ $lowercase = "";
 $formatspecial = "";
 $common = "";
 
-//Disabled pending development
-//if(isset($_SESSION["formattingbox"]))
-//	$formatting = $_SESSION["formattingbox"];
-//	$tags = $_SESSION["tags"];
+if(isset($_SESSION["formattingbox"]))
+	$formatting = $_SESSION["formattingbox"];
+	$tags = $_SESSION["tags"];
 if(isset($_SESSION["punctuationbox"])) {
 	$punctuation = $_SESSION["punctuationbox"];
 	if(isset($_SESSION["aposbox"])) {
