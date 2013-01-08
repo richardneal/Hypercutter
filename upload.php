@@ -5,6 +5,16 @@ Featured on SitePoint.com
 Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 */
 session_start();
+$_SESSION['punctuationbox'] = $_POST['punctuationbox'];
+$_SESSION['aposbox'] = $_POST['aposbox'];
+$_SESSION['hyphensbox'] = $_POST['hyphensbox'];
+$_SESSION['digitsbox'] = $_POST['digitsbox'];
+$_SESSION['lowercasebox'] = $_POST['lowercasebox'];
+$_SESSION['stopwordlist'] = $_POST['stopwordlist'];
+$_SESSION['lemmalist'] = $_POST['lemmalist'];
+$_SESSION['consolidationslist'] = $_POST['consolidationslist'];
+$_SESSION['specialcharslist'] = $_POST['specialcharslist'];
+$_SESSION['commonlist'] = $_POST['commonlist'];
 $chunksize = (int)htmlspecialchars($_POST['chunksize']);
 $chunknumber = (int)htmlspecialchars($_POST['chunknumber']);
 $shiftsize = (int)htmlspecialchars($_POST['shiftsize']);
@@ -13,28 +23,15 @@ $_SESSION['chunksize'] = $chunksize;
 $_SESSION['chunknumber'] = $chunknumber;
 $_SESSION['shiftsize'] = $chunksize - $shiftsize;
 $_SESSION['lastprop'] = $lastprop / 100;
-if(isset($_POST['apostrophes']) && $_POST['apostrophes'] == 'yes') {
-	$_SESSION['apostrophes'] = 'yes';
-} else {
-	$_SESSION['apostrophes'] = 'no';
-}
-if(isset($_POST['hyphens']) && $_POST['hyphens'] == 'yes') {
-	$_SESSION['hyphens'] = 'yes';
-} else {
-	$_SESSION['hyphens'] = 'no';
-}
 $_SESSION['chunkoption'] = $_POST['chunkoption'];
 
 $fn = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
 $uploaded_files = array();
 
-if (!is_dir('sessions/' . session_id())) {
-	mkdir('sessions/' . session_id());
+if (!is_dir('uploads/' . session_id())) {
+	mkdir('uploads/' . session_id());
 }
-if (!is_dir('sessions/' . session_id() . '/uploads/')) {
-	mkdir('sessions/' . session_id() . '/uploads/');
-}
-$directory = 'sessions/' . session_id() . '/uploads/';
+$directory = 'uploads/' . session_id() . '/';
 
 if ($fn) {
 
