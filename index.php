@@ -1,7 +1,6 @@
 <?php
 session_start();
 	// For testing, automatically empty the chunks folder on load
-/*
 	$files = glob('files/chunks/*'); // get all file names
 	foreach($files as $file) {
 		if(is_file($file))
@@ -22,26 +21,34 @@ session_start();
 
 	if(is_file('chunks.zip'))
 	unlink('chunks.zip');
-	*/
 
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	unset($_SESSION['uploaded_files']);
+	$files = glob('uploads/' . session_id() . '/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
+	if (is_dir('uploads/' . session_id())) {
+		rmdir('uploads/' . session_id());
+	}
 
-	$folders = glob('sessions/' . session_id() . '/*');
-
-	foreach ($folders as $folder) {
-		if(is_dir($folder)) {
-			$files = glob($folder . '/*');
-			foreach($files as $file) {
-				if(is_file($file))
-				unlink($file); // delete file
-			}
-			rmdir($folder);
-		}
-		else {
-			unlink($folder);
-		}
+	$files = glob('files/chunks/' . session_id() . '/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
+	if (is_dir('files/chunks/' . session_id())) {
+		rmdir('files/chunks/' . session_id());
+	}
+	$files = glob('files/tsvs/' . session_id() . '/*'); // get all file names
+	foreach($files as $file) {
+		if(is_file($file))
+		unlink($file); // delete file
+	}
+	if (is_dir('files/tsvs/' . session_id())) {
+		rmdir('files/tsvs/' . session_id());
 	}
 }
 ?>
@@ -54,7 +61,6 @@ if (isset($_GET['action']) && $_GET['action'] == "clear") {
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css" media="all" />
-
 <script src="tooltips.js"></script>
 <script>
  $(function() {
@@ -194,8 +200,8 @@ $(function() {
  
         $( "#dialog-specialchars" ).dialog({
             autoOpen: false,
-            height: 300,
-            width: 400,
+            height: 400,
+			width: 400,
             modal: true,
 			show: 'bounce',
 			hide: 'puff',
@@ -252,27 +258,23 @@ $(function() {
 <td><button id="about">About This Tool</button></td>
 <?php
 
-require_once("cut.php");
-
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
 //error_reporting(4);
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
-$directory = "hypercutter/sessions/" . session_id() . "/uploads/" ;
+$directory = "hypercutter/uploads/" . session_id();
 $chunksize = $_SESSION['chunksize'];
 $chunknumber = $_SESSION['chunknumber'];
 $shiftsize = $_SESSION['shiftsize'];
 $lastprop = $_SESSION['lastprop'];
-/*
 
 // Grab all the filenames ending in .txt
 foreach (glob("$directory/*.txt") as $filename) {
 	// For each file, get the contents as $data
 	$data = file_get_contents($filename);
 	$textarray = explode(" ", $data);
-
 	// call the cutter function on the text array
 	$chunkarray = cutter($textarray, $chunksize, $shiftsize, $lastprop);
 	// write a new file for each chunk
@@ -285,14 +287,145 @@ foreach (glob("$directory/*.txt") as $filename) {
 
 }
 
-	*/
+	// cutter()
+	// cuts the input array into specified chunks
+	// ARGS:
+	//	$textarray: array containing the words of the text in
+	//		individual slots
+	// 	$chunksize: the size in words of a chunk
+	//	$shiftsize: the number of words to shift
+	// 	$lastprop: the proportion of a chunk the last chunk can be
+	// RETURN: an array of chunks, where a chunk is a subset of 
+	//		the input array indexed by the first and last word number
+	//		in the chunk, each chunk will not necessarily be indexed
+	//		by word number, but will be textual order
+	function cutter( $textarray, $chunksize, $shiftsize, $lastprop ) {
+
+		// set initial chunk
+		$start = 0;
+		$end = $chunksize;
+		// grab the next chunk and add it in if the bounds were not exceeded
+		while ( $chunk = array_subset( $textarray, $start, $end ) ) {
+
+			// create the index of the $start..$end, most of the time,
+			// if the subset came back having stopped at MAX, we'll
+			// need the last key in the $chunk array
+			$index = "$start.." . array_pop( array_keys( $chunk ) );
+			$chunkarray[$index] = $chunk;
+
+			// get new bounds
+			$start += $shiftsize;
+			$end += $shiftsize;
+
+		}
+
+		// determine the min size of the last chunk
+		// err on the side of too much; better to have a chunk of
+		// 4 in chunksize 3 than a chunk of 1
+		$lastsize = ceil( $chunksize * $lastprop );
+
+		// find the last chunk
+		$lastchunk = end( $chunkarray );
+
+		// the the size of the last chunk is smaller than allowed, 
+		//  merge and reindex
+		if ( count( $lastchunk ) < $lastsize ) {
+			
+			// discard the offending chunk
+			array_pop( $chunkarray );
+
+			// get the very final index of the last chunk, last word
+			$indexend = array_pop( array_keys( $lastchunk ) );
+
+			// remove and capture the chunk to append to
+			$secondlast = array_pop( $chunkarray );
+
+			// get the first index of that array and prepend 
+			//  that to create the new index to $chunkarray
+			$index = array_shift( array_keys( $secondlast ) ) . "..$indexend";
+		
+			// merge the two chunks in order, and stick it on
+			$newchunk = array_merge( $secondlast, $lastchunk );
+			$chunkarray[$index] = $newchunk;
+
+		}
+
+		return $chunkarray;
+
+	}
+
+	// array_subset()
+	// dumb PHP doesn't have this function, so this is a hacky
+	// version that doesn't think about non-numeric keys
+	// ARGS:
+	//	$array: array indexed by numbers
+	//	$start: index of first element in subset
+	//	$end: index of first element not in array
+	// RETURN: an array [$start,$end) from $array with
+	//		the same indicies 
+	function array_subset( $array, $start, $end ) {
+	
+		$MAX = count( $array );
+		//$subset = array();
+		for ( $i = $start; $i < $end; $i++ ) {
+
+			if ( $i >= $MAX )
+				break;
+			$subset[$i] = $array[$i];
+
+		}
+
+		if ( count( $subset ) == 0 )
+			return null;
+		else
+			return $subset;
+
+	}
+
+
+	function count_words( &$textarray ) 
+	{
+	    $wordcount = array();
+	    // iterate through the array of words and up the count
+	    foreach ( $textarray as $word ) 
+	    {
+	        if ( $word == "" )
+	            continue;
+	        $wordcount[ "$word" ] = isset( $wordcount[ "$word" ] ) ? 
+	                $wordcount[ "$word" ] + 1 : 1;
+	    }
+
+	    return $wordcount;
+
+	}
+
+	function hash_sort( &$hash, $sort ) {
+
+    if ( $sort == 'c' ) {
+
+        // grab array for word and counts
+        $word = array_keys( $hash );
+        $count = array_values( $hash );
+        
+        // sort the counts, then words in $hash
+        array_multisort( $count, SORT_DESC, $word, SORT_ASC, $hash );
+
+    }
+    else {
+
+        // sort by key, ie. the word name
+        ksort( $hash );
+
+    }
+
+}
 
 echo '<td><form action="index.php?action=clear" method="POST">
 <input type="submit" value="Start Over"/>
 </form></td></tr></table><p>
 <fieldset><legend>Download</legend>
 <table><tr>
-<td><button id="cluster">Dendrogram</button></td>
+<td><button id="cluster">Dendogram</button></td>
 <td><form action="chunks.php" method="POST">
 <input type="submit" value="Chunks"/>
 </form></td>
@@ -337,7 +470,7 @@ echo "<hr>";
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
-	$text = file_get_contents('sessions/' . session_id() . '/uploads/' . $sourcefile);
+	$text = file_get_contents('uploads/'.session_id().'/'.$sourcefile);
 
 	// Scrub the text
 	include("scrubbing_functions.php");
@@ -370,20 +503,20 @@ foreach ($chunkarray as $range=>$tokens) {
 	$i++;
 	// Write the header and string to a file here.
 	$out = $header . "\n" . $str;
-	if (!is_dir('sessions/' . session_id() . '/chunks/')) {
-		mkdir('sessions/' . session_id() . '/chunks/');
+	if (!is_dir('files/chunks/' . session_id())) {
+		mkdir('files/chunks/' . session_id());
 	}
-	$outdirectory = 'sessions/' . session_id() . '/chunks/'; // Needs a directory path
+	$outdirectory = "files/chunks/" . session_id() . "/"; // Needs a directory path
 	$chunkfile = $outdirectory . $outfile . ".txt";
 	file_put_contents($chunkfile, $out);
 
 
 
 	$wordcount = count_words($tokens);
-	if (!is_dir('sessions/' . session_id() . "/tsvs/")) {
-		mkdir('sessions/' . session_id() . "/tsvs/");
+	if (!is_dir('files/tsvs/' . session_id())) {
+		mkdir('files/tsvs/' . session_id());
 	}
-	$tsvdirectory = "sessions/" . session_id() . "/tsvs/";
+	$tsvdirectory = "files/tsvs/" . session_id() . "/";
 	hash_sort($wordcount, 'c');
 	$outtsv = http_build_query($wordcount, '', ',');
 	$tsvfile = $tsvdirectory . $outfile . ".tsv";
@@ -395,7 +528,7 @@ foreach ($chunkarray as $range=>$tokens) {
 echo "<hr><hr>";
 
 // Output generated, so delete the file uploads
-$files = glob('hypercutter/sessions/' . session_id() . '/uploads/*'); // get all file names
+$files = glob('hypercutter/uploads/' . session_id() . '/*'); // get all file names
 foreach($files as $file) {
 	if(is_file($file))
 	unlink($file); // delete file
@@ -421,8 +554,6 @@ foreach($files as $file) {
 </fieldset>
 
 <?php
-// Modal dialogs call javascript functions to update hidden fields in the main prior to submission. These functions are in individualised versions of filedrag.js. The common characters and tag detection functions have not yet been implemented. For the latter, a solution might be to insert a regex into the filedrag script to detect tags and unhide the form fields for stripping tags if they are found. I also recommend changing "consolidations" to "custom regex patterns", which would only require minor modifications and would provide greater flexibility.
-
 $punctuationbox = (isset($_SESSION["punctuationbox"])) ? $_SESSION["punctuationbox"] : "on"; 
 $aposbox = (isset($_SESSION["aposbox"])) ? $_SESSION["aposbox"] : "off";
 $hyphensbox = (isset($_SESSION["hyphensbox"])) ? $_SESSION["hyphensbox"] : "off";
@@ -479,7 +610,10 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 <input type="hidden" id="consolidationslist" name="consolidationslist" value="" />
 <input type="hidden" id="specialcharslist" name="specialcharslist" value="" />
 <input type="hidden" id="commonlist" name="commonlist" value="" />
+<input type="hidden" id="entityrulesopts" name="entityrulesopts" value="default" />
 </fieldset>
+<!-- All values are defined in the form. Modal dialog uploads will call javascript functions to update the values prior to submission of the form. These functions are in individualised versions of filedrag.js. I still have to make using the common characters the default. Then modify upload.php to accept all the newly-named POST variables and turn them into SESSION variables. Finally, update the output to reflect the SESSION variables. After that, I need to figure out what to do about the damn tag detection. Perhaps stick into the filedrag script a regex which unhides the strip tags fields. At the end, I can perhaps change consolidations to custom regex. -->
+
 
 <fieldset>
 <legend>Chunk Settings</legend>
@@ -502,7 +636,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 <p>Status Messages</p>
 </div>
 
-<script src="filedrag/filedrag.js"></script>
+<script src="filedrag.js"></script>
 
 <?php
 }
@@ -536,7 +670,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="filedrag/swfiledrag.js"></script>
+			<script src="swfiledrag.js"></script>
 
 		<div id="dialog-lemmas" title="Upload Lemma List">
 		
@@ -551,7 +685,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="filedrag/lemmafiledrag.js"></script>
+			<script src="lemmafiledrag.js"></script>
 
 			<div id="dialog-consolidations" title="Upload Consolidation List">
 		
@@ -566,11 +700,32 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="filedrag/consolidationsfiledrag.js"></script>
+			<script src="consolidationsfiledrag.js"></script>
 
 			<div id="dialog-specialchars" title="Upload Rules for Handling Special Characters">
 			
-				<p>By default, <i>&amp;ae;</i>, <i>&amp;d;</i>, <i>&amp;t;</i>, and <i>&amp;#0541;</i> are converted to <i>&aelig;</i>, <i>&eth;</i>, <i>&thorn;</i>, and <i>&#0541;</i> (upper and lower case). You may upload a file with a different set of rules below.</p>
+				<p><b>Use Pre-Defined Rule Set <img src="question_mark.png" alt="Question Mark" title="Currently, the DOE entities <i>&amp;ae;</i>, <i>&amp;d;</i>, <i>&amp;t;</i>, and <i>&amp;#0541;</i> are converted to <i>&aelig;</i>, <i>&eth;</i>, <i>&thorn;</i>, and <i>&#0541;</i> by default (though <i>&#0541;</i> is technically not a DOE entity). The dropdown makes this an option. Early English HTML does the same for HTML entities (e.g. <i>&amp;thorn;</i>), and other entities like <i>&amp;+#383;</i> = <i>ſ</i> could be added to include Early Modern English." /><br />
+				(Experimental &mdash; Not Yet Active):</b></p>
+				<p>
+				<?php
+				$entityrules = (isset($_SESSION["entityrules"])) ? $_SESSION["entityrules"] : "default";
+				?>
+				<script>
+				function changeEntityRules() {
+					var e = document.getElementById("entityrules");
+					var v = e.options[e.selectedIndex].value;
+					$("#entityrulesopts").val(v);
+					//alert($("#entityrulesopts").val());	
+				}
+				</script>
+				<select id="entityrules" name="entityrules" onchange="changeEntityRules()">
+					<option value="default" <?php echo ($entityrules == 'default') ? 'selected="selected"' : '' ?>>Default</option>
+					<option value="doe-sgml" <?php echo ($entityrules == 'default') ? '""' : '' ?>>Dictionary of Old English SGML</option>
+					<option value="early-english-html"<?php echo ($entityrules == 'default') ? '""' : '' ?>>Early English HTML</option>
+				</select>
+				</p>
+				<p><a href="pre-defined-rules.html" target="_blank">View Pre-Defined Rule Sets</a>
+				<p>Or load a custom rule set below.</p>
 		
 				<label for="specialcharsfileselect">File to upload:</label>
 				<input type="file" id="specialcharsfileselect" name="specialcharsfileselect[]" />
@@ -583,12 +738,12 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="filedrag/specialcharsfiledrag.js"></script>			
-<div id="cluster-modal" title="Generate Dendrogram">
+			<script src="specialcharsfiledrag.js"></script>			
+<div id="cluster-modal" title="Generate Dendogram">
     <form id="cluster" action="cluster.php" method="POST">
 
 	<fieldset>
-	<legend>Dendrogram Options</legend>
+	<legend>Dendogram Options</legend>
 	
 	<p><label>Name:</label> <input name="name" type="text" size="12"/></p>
 	<p><label>Linkage Method:</label>
@@ -616,7 +771,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 		<option value="phyloxml">PhyloXML</option>
 	</select>
 	</fieldset>
-	<p><input type="submit" value="Get Dendrogram"/></p>
+	<p><input type="submit" value="Get Dendogram"/></p>
 	</form>
 </div>
 
