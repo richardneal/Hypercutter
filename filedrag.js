@@ -2,6 +2,9 @@
 filedrag.js - HTML5 File Drag & Drop demonstration
 Featured on SitePoint.com
 Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
+Unmodified, except that required MIME type is changed from jpeg 
+and output formatting changed slightly. 
+to text/plain.
 */
 (function() {
 
@@ -48,10 +51,9 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 	function ParseFile(file) {
 
 		Output(
-			"<p>File information: <strong>" + file.name +
-			"</strong> type: <strong>" + file.type +
-			"</strong> size: <strong>" + file.size +
-			"</strong> bytes</p>"
+			"<p><strong>File information:</strong><br />Name: " + 
+			file.name + "<br />Type: " + file.type +
+			"<br />Size: " + file.size + " bytes</p>"
 		);
 
 		// display an image
@@ -70,9 +72,11 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 		if (file.type.indexOf("text") == 0) {
 			var reader = new FileReader();
 			reader.onload = function(e) {
+						var clippedFileText = e.target.result.substring(0,30) + "...";
+
 				Output(
 					"<p><strong>" + file.name + ":</strong></p><pre>" +
-					e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+					clippedFileText.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
 					"</pre>"
 				);
 			}
@@ -94,7 +98,7 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 			// create progress bar
 			var o = $id("progress");
 			var progress = o.appendChild(document.createElement("p"));
-			progress.appendChild(document.createTextNode("upload " + file.name));
+			progress.appendChild(document.createTextNode("Loaded: " + file.name));
 
 
 			// progress bar
