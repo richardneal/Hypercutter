@@ -558,14 +558,19 @@ $punctuationbox = (isset($_SESSION["punctuationbox"])) ? $_SESSION["punctuationb
 $aposbox = (isset($_SESSION["aposbox"])) ? $_SESSION["aposbox"] : "off";
 $hyphensbox = (isset($_SESSION["hyphensbox"])) ? $_SESSION["hyphensbox"] : "off";
 $digitsbox = (isset($_SESSION["digitsbox"])) ? $_SESSION["digitsbox"] : "on";
-// Conditional disabled because of multiple file upload
-//if(preg_match("'<[^>]+>'U", $file) > 0) {
-//    $_SESSION["POST"]["formattingbox"] = "on";
-//}
 $lowercasebox = (isset($_SESSION["lowercasebox"])) ? $_SESSION["lowercasebox"] : "on";
 $aposbox = (isset($_SESSION["tags"])) ? $_SESSION["tags"] : "keep";
 $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
+
+// Conditional disabled because of multiple file upload -- handled by hidden input updated by filedrag.js.
+//if(preg_match("'<[^>]+>'U", $file) > 0) {
+//    $_SESSION["POST"]["formattingbox"] = "on";
+//}
+echo '<input type="hidden" name="formattingbox" id="formattingbox" value="';
+echo ($_SESSION["formattingbox"] == "on") ? "on" : "off";
+echo '"/>';
 ?>
+
 <fieldset>
 <legend>Scrubbing Options</legend>
 <table width="450">
@@ -588,6 +593,12 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 	</td>
 	<td width="50%">
 	<input type="checkbox" name="lowercasebox" <?php echo ($lowercasebox == "on") ? "checked" : "" ?>/>Make Lowercase</label></td></tr>
+<tr class="taghandler" style="display:none;">
+	<td colspan="2">Your text(s) contain tags. Would you like to<br />
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="tags" value="keep" checked /> Keep Words Inside Tags<br />
+	&nbsp;&nbsp;&nbsp;<input type="radio" name="tags" value="discard"  /> Discard Words Inside Tags
+	</td>
+</tr>	
 <tr>
 	<td width="50%">
 		<a id="stopwords" href="#">Load Stopword List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a stopword list (a text file with each stopword separated by a space or a comma)." />
@@ -627,7 +638,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 </fieldset>
 
 <p><input type="submit" value="Scrub &amp; Chunk Files"/></p>
-
+<input type="hidden" id="checkTags" name="checkTags" value="false"/>
 </form>
 
 <div id="progress"></div>
