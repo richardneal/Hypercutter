@@ -612,7 +612,7 @@ $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
 <input type="hidden" id="commonlist" name="commonlist" value="" />
 <input type="hidden" id="entityrulesopts" name="entityrulesopts" value="default" />
 </fieldset>
-<!-- All values are defined in the form. Modal dialog uploads will call javascript functions to update the values prior to submission of the form. These functions are in individualised versions of filedrag.js. I still have to make using the common characters the default. Then modify upload.php to accept all the newly-named POST variables and turn them into SESSION variables. Finally, update the output to reflect the SESSION variables. After that, I need to figure out what to do about the damn tag detection. Perhaps stick into the filedrag script a regex which unhides the strip tags fields. At the end, I can perhaps change consolidations to custom regex. -->
+<!-- All values are defined in the form. Modal dialog uploads will call javascript functions to update the values prior to submission of the form. These functions are in individualised versions of filedrag.js. Next I need to figure out what to do about the damn tag detection. Perhaps stick into the filedrag script a regex which unhides the strip tags fields. At the end, I can perhaps change consolidations to custom regex. -->
 
 
 <fieldset>
