@@ -716,7 +716,7 @@ echo '"/>';
 			<div id="dialog-specialchars" title="Upload Rules for Handling Special Characters">
 			
 				<p><b>Use Pre-Defined Rule Set <img src="question_mark.png" alt="Question Mark" title="Currently, the DOE entities <i>&amp;ae;</i>, <i>&amp;d;</i>, <i>&amp;t;</i>, and <i>&amp;#0541;</i> are converted to <i>&aelig;</i>, <i>&eth;</i>, <i>&thorn;</i>, and <i>&#0541;</i> by default (though <i>&#0541;</i> is technically not a DOE entity). The dropdown makes this an option. Early English HTML does the same for HTML entities (e.g. <i>&amp;thorn;</i>), and other entities like <i>&amp;+#383;</i> = <i>ſ</i> could be added to include Early Modern English." /><br />
-				(Experimental &mdash; Not Yet Active):</b></p>
+				(Experimental):</b></p>
 				<p>
 				<?php
 				$entityrules = (isset($_SESSION["entityrules"])) ? $_SESSION["entityrules"] : "default";
