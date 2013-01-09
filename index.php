@@ -681,7 +681,7 @@ echo '"/>';
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="swfiledrag.js"></script>
+			<script src="filedrag/swfiledrag.js"></script>
 
 		<div id="dialog-lemmas" title="Upload Lemma List">
 		
@@ -696,7 +696,7 @@ echo '"/>';
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="lemmafiledrag.js"></script>
+			<script src="filedrag/lemmafiledrag.js"></script>
 
 			<div id="dialog-consolidations" title="Upload Consolidation List">
 		
@@ -711,7 +711,7 @@ echo '"/>';
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="consolidationsfiledrag.js"></script>
+			<script src="filedrag/consolidationfiledrag.js"></script>
 
 			<div id="dialog-specialchars" title="Upload Rules for Handling Special Characters">
 			
@@ -749,7 +749,7 @@ echo '"/>';
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="specialcharsfiledrag.js"></script>			
+			<script src="filedrag/specialcharsfiledrag.js"></script>			
 <div id="cluster-modal" title="Generate Dendogram">
     <form id="cluster" action="cluster.php" method="POST">
 
