@@ -428,17 +428,30 @@ echo '<td><form action="index.php?action=clear" method="POST">
 </table>
 </fieldset></p>';
 
+$punctuation = ($_SESSION["punctuationbox"] == "on") ? "yes" : "no";
+$apos = ($_SESSION["aposbox"] == "on") ? "yes" : "no"; 
+$hyphens = ($_SESSION["hyphensbox"] == "on") ? "yes" : "no";
+$digits = ($_SESSION["digitsbox"] == "on") ? "yes" : "no"; 
+$lc = ($_SESSION["lowercasebox"] == "on") ? "yes" : "no";
+if (isset($_SESSION["tags"])) {
+	$tags = $_SESSION["tags"];
+}
+if (isset($_SESSION["commonbox"])) {
+	$tags = $_SESSION["commonbox"];
+}
+
+
 echo "<hr>";
 echo "<table width=\"600\">";
 echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
 echo "<tr><td width=\"200\">", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
-echo "<td width=\"200\">Overlap: " . $_SESSION['shiftsize'] . "</td>";
+echo "<td width=\"200\">Overlap: " . $_SESSION['overlap'] . "</td>";
 echo ($_SESSION['chunksize'] ? "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>" : "</tr>");
-echo "<tr><td width=\"100\">Keep Punctuation: " . $_SESSION['punctuation'] . "</td>";
-echo "<td width=\"100\">Keep Apostrophes: " . $_SESSION['apostrophes'] . "</td>";
-echo "<td width=\"100\">Keep Hyphens: " . $_SESSION['hyphens'] . "</td></tr>";
-echo "<tr><td width=\"200\">Keep Numbers: " . $_SESSION['numbers'] . "</td>";
-echo "<td colspan=\"2\">Preserve Case: " . $_SESSION['preserve_case'] . "</td></tr>";
+echo "<tr><td width=\"100\">Remove Punctuation: " . $punctuation . "</td>";
+echo "<td width=\"100\">Keep Apostrophes: " . $apos . "</td>";
+echo "<td width=\"100\">Keep Hyphens: " . $hyphens . "</td></tr>";
+echo "<tr><td width=\"200\">Remove Digits: " . $digits . "</td>";
+echo "<td colspan=\"2\">Make Lowercase: " . $lc . "</td></tr>";
 if ($_SESSION['stopwordlist'] != "") {
 	$stopwords = $_SESSION['stopwordlist'];
 	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"alert('" . $stopwords . "')\">View List</a>)</td></tr>";

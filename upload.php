@@ -32,6 +32,7 @@ $shiftsize = (int)htmlspecialchars($_POST['shiftsize']);
 $lastprop = (int)htmlspecialchars($_POST['lastprop']);
 $_SESSION['chunksize'] = $chunksize;
 $_SESSION['chunknumber'] = $chunknumber;
+$_SESSION['overlap'] = $shiftsize;
 $_SESSION['shiftsize'] = $chunksize - $shiftsize;
 $_SESSION['lastprop'] = $lastprop / 100;
 $_SESSION['chunkoption'] = $_POST['chunkoption'];
