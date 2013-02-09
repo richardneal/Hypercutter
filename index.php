@@ -249,7 +249,7 @@ $(function() {
 <tr>
 <td><button id="about">About This Tool</button></td>
 <?php
-
+echo "Uploaded " . $_SESSION['uploaded_files']
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
 //error_reporting(4);
