@@ -2,7 +2,7 @@
 session_start();
 //unlink("chunks.zip");
 $zip = new ZipArchive();
-$filename = "/sessions/" . session_id().  "/chunks.zip";
+$filename = "sessions/" . session_id().  "/chunks.zip";
 
 if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     exit("cannot open <$filename>\n");
