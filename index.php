@@ -249,7 +249,6 @@ $(function() {
 <tr>
 <td><button id="about">About This Tool</button></td>
 <?php
-echo "Uploaded " . $_SESSION['uploaded_files'];
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
 //error_reporting(4);
@@ -417,7 +416,7 @@ echo '<td><form action="index.php?action=clear" method="POST">
 </form></td></tr></table><p>
 <fieldset><legend>Download</legend>
 <table><tr>
-<td><button id="cluster">Dendogram</button></td>
+<td><button id="cluster">Dendrogram</button></td>
 <td><form action="chunks.php" method="POST">
 <input type="submit" value="Chunks"/>
 </form></td>
@@ -462,11 +461,11 @@ echo "<hr>";
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
-	$text = file_get_contents('uploads/'.session_id().'/'.$sourcefile);
-
+	$text = file_get_contents('sessions/'.session_id().'/uploads/'.$sourcefile);
+	ob_start();
 	// Scrub the text
 	include("scrubbing_functions.php");
-
+	$myContent = ob_get_clean();
 	// Make the text an array and chunk it
 	$textarray = explode(" ", $text);
 
@@ -487,7 +486,7 @@ foreach ($chunkarray as $range=>$tokens) {
  	$outrange = str_replace("..", "-", $range);
 	$printrange = str_replace("..", " to ", $range);
 	$outfile = rtrim($sourcefile, ".txt") . str_pad($i, $padlength, "0", STR_PAD_LEFT) . "_" . $outrange;
-	$header = "Chunk " . str_pad($i, $padlength, "0", STR_PAD_LEFT) . ": Tokens " . $printrange . " (" . $outfile . ")";
+	$header = "Chunk " . str_pad($i, $padlength, "0", STR_PAD_LEFT) . " - Tokens " . $printrange . " (" . $outfile . ")";
 	echo "<b>" . $header . "</b><br>";
 	$str = implode(" ", $tokens);
 	echo $str;
@@ -495,20 +494,20 @@ foreach ($chunkarray as $range=>$tokens) {
 	$i++;
 	// Write the header and string to a file here.
 	$out = $header . "\n" . $str;
-	if (!is_dir('files/chunks/' . session_id())) {
-		mkdir('files/chunks/' . session_id());
+	if (!is_dir('sessions/' . session_id() . '/chunks')) {
+		mkdir('sessions/' . session_id() . '/chunks');
 	}
-	$outdirectory = "files/chunks/" . session_id() . "/"; // Needs a directory path
-	$chunkfile = $outdirectory . $outfile . ".txt";
+	$outdirectory = 'sessions/' . session_id() . '/chunks/'; // Needs a directory path
+	$chunkfile = $outdirectory . $out . ".txt";
 	file_put_contents($chunkfile, $out);
 
 
 
 	$wordcount = count_words($tokens);
-	if (!is_dir('files/tsvs/' . session_id())) {
-		mkdir('files/tsvs/' . session_id());
+	if (!is_dir('sessions/' . session_id() . '/tsvs')) {
+		mkdir('sessions/' . session_id() . '/tsvs');
 	}
-	$tsvdirectory = "files/tsvs/" . session_id() . "/";
+	$tsvdirectory = ('sessions/' . session_id() . '/tsvs/');
 	hash_sort($wordcount, 'c');
 	$outtsv = http_build_query($wordcount, '', ',');
 	$tsvfile = $tsvdirectory . $outfile . ".tsv";
@@ -742,11 +741,11 @@ echo '"/>';
 		</div>
 			<!-- Filedrag Script -->
 			<script src="filedrag/specialcharsfiledrag.js"></script>			
-<div id="cluster-modal" title="Generate Dendogram">
+<div id="cluster-modal" title="Generate Dendrogram">
     <form id="cluster" action="cluster.php" method="POST">
 
 	<fieldset>
-	<legend>Dendogram Options</legend>
+	<legend>Dendrogram Options</legend>
 	
 	<p><label>Name:</label> <input name="name" type="text" size="12"/></p>
 	<p><label>Linkage Method:</label>
@@ -774,7 +773,7 @@ echo '"/>';
 		<option value="phyloxml">PhyloXML</option>
 	</select>
 	</fieldset>
-	<p><input type="submit" value="Get Dendogram"/></p>
+	<p><input type="submit" value="Get Dendrogram"/></p>
 	</form>
 </div>
 

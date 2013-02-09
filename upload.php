@@ -55,7 +55,7 @@ if ($fn) {
 		file_get_contents('php://input')
 	);
 	$_SESSION['uploaded_files'][] = $fn;
-	echo "$fn uploaded";
+	//echo "$fn uploaded";
 	exit();
 
 }

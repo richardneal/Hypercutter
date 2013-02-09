@@ -164,7 +164,7 @@ function scrub_text($string, $formatting, $tags, $punctuation, $apos, $hyphens, 
 			if($lowercase == "on") {
 				$string = strtolower($string);
 				$caparray = array("Æ", "Ð", "Þ", "&#540;"); // yogh added
-				$lowarray = array("æ", "ð", "þ" "&#541;");
+				$lowarray = array("æ", "ð", "þ", "&#541;");
 				$string = str_replace($caparray, $lowarray, $string);
 			}
 			print("<br /> After lowercase, before special characters <br />" . substr($string, 0, 1000) . "<br />");
@@ -266,5 +266,5 @@ $lemmas = $_SESSION["lemmalist"];
 $consolidations = $_SESSION["consolidationslist"];
 $specials = $_SESSION["specialcharslist"];
 
-$text = scrub_text($file, $formatting, $tags, $punctuation, $apos, $hyphens, $digits, $removeStopWords, $lemmatize, $consolidate, $formatspecial, $lowercase, $common, $stopwords, $lemmas, $consolidations, $specials);
+$text = scrub_text($text, $formatting, $tags, $punctuation, $apos, $hyphens, $digits, $removeStopWords, $lemmatize, $consolidate, $formatspecial, $lowercase, $common, $stopwords, $lemmas, $consolidations, $specials);
 ?>
