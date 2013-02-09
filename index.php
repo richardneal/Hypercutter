@@ -1,5 +1,6 @@
 <?php
 session_start();
+/*
 	// For testing, automatically empty the chunks folder on load
 	$files = glob('files/chunks/*'); // get all file names
 	foreach($files as $file) {
@@ -21,34 +22,25 @@ session_start();
 
 	if(is_file('chunks.zip'))
 	unlink('chunks.zip');
-
+*/
 // If user clicked start over destroy the session and delete uploads
 if (isset($_GET['action']) && $_GET['action'] == "clear") {
 	unset($_SESSION['uploaded_files']);
-	$files = glob('uploads/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('uploads/' . session_id())) {
-		rmdir('uploads/' . session_id());
-	}
 
-	$files = glob('files/chunks/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('files/chunks/' . session_id())) {
-		rmdir('files/chunks/' . session_id());
-	}
-	$files = glob('files/tsvs/' . session_id() . '/*'); // get all file names
-	foreach($files as $file) {
-		if(is_file($file))
-		unlink($file); // delete file
-	}
-	if (is_dir('files/tsvs/' . session_id())) {
-		rmdir('files/tsvs/' . session_id());
+	$folders = glob('sessions/' . session_id() . '/*');
+
+	foreach ($folders as $folder) {
+		if(is_dir($folder)) {
+			$files = glob($folder . '/*');
+			foreach($files as $file) {
+				if(is_file($file))
+				unlink($file); // delete file
+			}
+			rmdir($folder);
+		}
+		else {
+			unlink($folder);
+		}
 	}
 }
 ?>
@@ -269,7 +261,7 @@ $chunksize = $_SESSION['chunksize'];
 $chunknumber = $_SESSION['chunknumber'];
 $shiftsize = $_SESSION['shiftsize'];
 $lastprop = $_SESSION['lastprop'];
-
+/*
 // Grab all the filenames ending in .txt
 foreach (glob("$directory/*.txt") as $filename) {
 	// For each file, get the contents as $data
@@ -286,7 +278,7 @@ foreach (glob("$directory/*.txt") as $filename) {
 // cf. chunkset.php
 
 }
-
+*/
 	// cutter()
 	// cuts the input array into specified chunks
 	// ARGS:
@@ -528,7 +520,7 @@ foreach ($chunkarray as $range=>$tokens) {
 echo "<hr><hr>";
 
 // Output generated, so delete the file uploads
-$files = glob('hypercutter/uploads/' . session_id() . '/*'); // get all file names
+$files = glob('hypercutter/sessions/' . session_id() . '/uploads/*'); // get all file names
 foreach($files as $file) {
 	if(is_file($file))
 	unlink($file); // delete file

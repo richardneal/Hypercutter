@@ -15,6 +15,7 @@ $_SESSION['lowercasebox'] = $_POST['lowercasebox'];
 $_SESSION['stopwordlist'] = $_POST['stopwordlist'];
 $_SESSION['lemmalist'] = $_POST['lemmalist'];
 $_SESSION['consolidationslist'] = $_POST['consolidationslist'];
+/*
 // Define the specialchars list either from an upload or a pre-defined set
 if ($_POST['specialcharslist'] !="") {
 	$_SESSION['specialcharslist'] = $_POST['specialcharslist'];
@@ -22,6 +23,8 @@ if ($_POST['specialcharslist'] !="") {
 	$entityrulesfile = "entityrules/" . $_POST["entityrulesopts"]."txt";
 	$_SESSION['specialcharslist'] = file_get_contents($entityrulesfile);
 }
+*/
+
 $_SESSION['commonlist'] = $_POST['commonlist'];
 $chunksize = (int)htmlspecialchars($_POST['chunksize']);
 $chunknumber = (int)htmlspecialchars($_POST['chunknumber']);
@@ -36,10 +39,13 @@ $_SESSION['chunkoption'] = $_POST['chunkoption'];
 $fn = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
 $uploaded_files = array();
 
-if (!is_dir('uploads/' . session_id())) {
-	mkdir('uploads/' . session_id());
+if (!is_dir('sessions/' . session_id())) {
+	mkdir('sessions/' . session_id());
 }
-$directory = 'uploads/' . session_id() . '/';
+if (!is_dir('sessions/' . session_id() . '/uploads')) {
+	mkdir('sessions/' . session_id() . '/uploads');
+}
+$directory = 'sessions/' . session_id() . '/uploads/';
 
 if ($fn) {
 
