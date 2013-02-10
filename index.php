@@ -674,6 +674,10 @@ echo '"/>';
 
 		<div id="dialog-stopwords" title="Upload Stopword List">
 		
+				<p><input type="checkbox" name="stopwordorderbox" <?php echo ($stopwordorderbox == "on") ? "checked" : "" ?>/> Apply stopwords 
+				before chunking <img valign="bottom" src="question_mark.png" alt="Question Mark" title="**This function is not yet active** Stopwords 
+				are normally deleted after chunking so that the chunk boundaries will match those of an unfiltered text. If you wish to filter 
+				stopwords <em>before</em> chunking has taken place (which will cause inconsistent decreases in the size of your chunks), check this box." /></p>
 				<label for="swfileselect">File to upload:</label>
 				<input type="file" id="swfileselect" name="swfileselect[]" />
 				<div id="swfiledrag"></div>
