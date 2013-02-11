@@ -565,6 +565,7 @@ $digitsbox = (isset($_SESSION["digitsbox"])) ? $_SESSION["digitsbox"] : "on";
 $lowercasebox = (isset($_SESSION["lowercasebox"])) ? $_SESSION["lowercasebox"] : "on";
 $aposbox = (isset($_SESSION["tags"])) ? $_SESSION["tags"] : "keep";
 $commonbox = (isset($_SESSION["commonbox"])) ? $_SESSION["commonbox"] : "on";
+$stopwordorderbox = (isset($_SESSION["stopwordorderbox"])) ? $_SESSION["stopwordorderbox"] : "off";
 
 // Conditional disabled because of multiple file upload -- handled by hidden input updated by filedrag.js.
 //if(preg_match("'<[^>]+>'U", $file) > 0) {
