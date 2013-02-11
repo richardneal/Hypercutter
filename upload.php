@@ -13,6 +13,7 @@ $_SESSION['formattingbox'] = $_POST['formattingbox'];
 $_SESSION['tags'] = $_POST['tags'];
 $_SESSION['lowercasebox'] = $_POST['lowercasebox'];
 $_SESSION['stopwordlist'] = $_POST['stopwordlist'];
+$_SESSION['stopwordorderbox'] = $_POST['stopwordorderbox'];
 $_SESSION['lemmalist'] = $_POST['lemmalist'];
 $_SESSION['consolidationslist'] = $_POST['consolidationslist'];
 /*

@@ -442,16 +442,18 @@ if (isset($_SESSION["commonbox"])) {
 
 
 echo "<hr>";
-echo "<table width=\"600\">";
+echo "<table width=\"650\">";
 echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
 echo "<tr><td width=\"200\">", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
 echo "<td width=\"200\">Overlap: " . $_SESSION['overlap'] . "</td>";
 echo ($_SESSION['chunksize'] ? "<td width=\"200\">Last Proportion: " . $_SESSION['lastprop'] * 100 . "%</td></tr>" : "</tr>");
-echo "<tr><td width=\"100\">Remove Punctuation: " . $punctuation . "</td>";
-echo "<td width=\"100\">Keep Apostrophes: " . $apos . "</td>";
-echo "<td width=\"100\">Keep Hyphens: " . $hyphens . "</td></tr>";
-echo "<tr><td width=\"200\">Remove Digits: " . $digits . "</td>";
-echo "<td colspan=\"2\">Make Lowercase: " . $lc . "</td></tr>";
+echo "<tr><td width=\"250\">Remove Punctuation: " . $punctuation . "</td>";
+echo "<td width=\"200\">Keep Apostrophes: " . $apos . "</td>";
+echo "<td width=\"200\">Keep Hyphens: " . $hyphens . "</td></tr>";
+echo "<tr><td width=\"250\">Remove Digits: " . $digits . "</td>";
+echo "<td width=\"200\">Make Lowercase: " . $lc . "</td>";
+echo ($_SESSION['stopwordorderbox'] == "on") ? "<td width=\"250\">Stopwords Filtered before Chunking</td>" : "<td width=\"250\">&nbsp;</td>";
+echo "</tr>";
 if ($_SESSION['stopwordlist'] != "") {
 	$stopwords = $_SESSION['stopwordlist'];
 	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"alert('" . $stopwords . "')\">View List</a>)</td></tr>";
@@ -622,6 +624,7 @@ echo '"/>';
 </tr>
 </table>
 <input type="hidden" id="stopwordlist" name="stopwordlist" value="" />
+<input type="hidden" id="stopwordorderbox" name="stopwordorderbox" value="off" />
 <input type="hidden" id="lemmalist" name="lemmalist" value="" />
 <input type="hidden" id="consolidationslist" name="consolidationslist" value="" />
 <input type="hidden" id="specialcharslist" name="specialcharslist" value="" />
@@ -674,8 +677,18 @@ echo '"/>';
 </div>
 
 		<div id="dialog-stopwords" title="Upload Stopword List">
-		
-				<p><input type="checkbox" name="stopwordorderbox" <?php echo ($stopwordorderbox == "on") ? "checked" : "" ?>/> Apply stopwords 
+			<script>
+			function setStopWordOrder() {
+				if(stopwordorderbox2.checked == true) {
+					document.getElementById('stopwordorderbox').value = "on";
+				}
+				else {
+					document.getElementById('stopwordorderbox').value = "off";
+				}
+				//alert(document.getElementById('stopwordorderbox').value);
+			}
+			</script>		
+				<p><input type="checkbox" id="stopwordorderbox2" name="stopwordorderbox2" <?php echo ($stopwordorderbox == "on") ? "checked" : "" ?> onClick="setStopWordOrder();"/> Apply stopwords 
 				before chunking <img valign="bottom" src="question_mark.png" alt="Question Mark" title="**This function is not yet active** Stopwords 
 				are normally deleted after chunking so that the chunk boundaries will match those of an unfiltered text. If you wish to filter 
 				stopwords <em>before</em> chunking has taken place (which will cause inconsistent decreases in the size of your chunks), check this box." /></p>
