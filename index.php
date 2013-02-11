@@ -511,8 +511,8 @@ foreach ($chunkarray as $range=>$tokens) {
 		mkdir('sessions/' . session_id() . '/chunks');
 	}
 	$outdirectory = 'sessions/' . session_id() . '/chunks/'; // Needs a directory path
-	$chunkfile = $outdirectory . $out . ".txt";
-	file_put_contents($chunkfile, $out);
+	$chunkfile = $outdirectory . $outfile . ".txt";
+	file_put_contents($chunkfile, $str);
 
 
 
