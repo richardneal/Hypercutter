@@ -252,7 +252,7 @@ $(function() {
 <?php
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
-error_reporting(4);
+//error_reporting(4);
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
