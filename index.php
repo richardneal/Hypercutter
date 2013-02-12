@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 /*
 	// For testing, automatically empty the chunks folder on load
 	$files = glob('files/chunks/*'); // get all file names
@@ -251,7 +252,7 @@ $(function() {
 <?php
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
-//error_reporting(4);
+error_reporting(4);
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
@@ -440,7 +441,6 @@ if (isset($_SESSION["commonbox"])) {
 	$tags = $_SESSION["commonbox"];
 }
 
-
 echo "<hr>";
 echo "<table width=\"650\">";
 echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
@@ -504,6 +504,10 @@ foreach ($chunkarray as $range=>$tokens) {
 	$header = "Chunk " . str_pad($i, $padlength, "0", STR_PAD_LEFT) . " - Tokens " . $printrange . " (" . $outfile . ")";
 	echo "<b>" . $header . "</b><br>";
 	$str = implode(" ", $tokens);
+	## Filter stopwords if there is a stopword list *and* the filter stopwords before chunking checkbox is off ##
+	if (isset($_SESSION['stopwordlist']) && $_SESSION['stopwordorderbox'] == "off") {
+		$str = trim(remove_stopWords($str, $stopwords));
+	}	
 	echo $str;
 	echo "<hr>";
 	$i++;
@@ -687,7 +691,8 @@ echo '"/>';
 				}
 				//alert(document.getElementById('stopwordorderbox').value);
 			}
-			</script>		
+			</script>
+		
 				<p><input type="checkbox" id="stopwordorderbox2" name="stopwordorderbox2" <?php echo ($stopwordorderbox == "on") ? "checked" : "" ?> onClick="setStopWordOrder();"/> Apply stopwords 
 				before chunking <img valign="bottom" src="question_mark.png" alt="Question Mark" title="**This function is not yet active** Stopwords 
 				are normally deleted after chunking so that the chunk boundaries will match those of an unfiltered text. If you wish to filter 

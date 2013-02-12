@@ -4,13 +4,13 @@ function remove_stopWords($text, $stopWords) {
 		print("You must include some text from which to have the text removed.");
 		return $text;
 	}
-	elseif ($stopwordlist == "") {
+	elseif ($stopWords == "") {
 		print("Nothing to do, since there are no stopwords.");
 		return $text;
 	}
 	else {
 		$allStopWords = array();
-		foreach(preg_split("/(\r?\n)/", $stopwordlist) as $line){
+		foreach(preg_split("/(\r?\n)/", $stopWords) as $line){
 			$eachStopWord = explode(", ", $line);
 			foreach($eachStopWord as $stopword){
 				array_push($allStopWords, "/\b" . $stopword . "\b/iu");
@@ -189,8 +189,9 @@ function scrub_text($string, $formatting, $tags, $punctuation, $apos, $hyphens, 
 				$string = str_replace(range(0, 9), '', $string);
 			} 
 			print("<br /> After remove digits, before remove stopwords <br />" . substr($string, 0, 1000) . "<br />");
-			if (isset($_SESSION['stopwordlist'])) {
-				$string = remove_stopWords($string, $stopwordlist);
+			## Only apply stopword filtering at this stage if there is a stopword list *and* the stopword order box is checked ##
+			if (isset($_SESSION['stopwordlist']) && $_SESSION['stopwordorderbox'] == "on" ) {
+				$string = remove_stopWords($string, $_SESSION['stopwordlist']);
 			}
 			print("<br /> After remove stopwords, before lemmatize <br />" . substr($string, 0, 1000) . "<br />");
 			if ($lemmatize == "on") {
