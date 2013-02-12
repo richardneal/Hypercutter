@@ -252,7 +252,7 @@ $(function() {
 <?php
 if(isset($_SESSION['uploaded_files'])) {
 // Script generates Strict Standards: Only variables should be passed by reference unless error reporting is changed.
-//error_reporting(4);
+error_reporting(4);
 
 // Replace this with file upload script
 $textarray = array("Was","this","the","face","that","launched","a","thousand","ships");
@@ -442,6 +442,31 @@ if (isset($_SESSION["commonbox"])) {
 }
 
 echo "<hr>";
+?>
+<script>
+  function openDialog(title, content) {
+    switch (content) {
+		case "stopwords":
+		content = "<?php echo preg_replace('/\s+/', '', nl2br($_SESSION["stopwordlist"])) ?>";
+		break;
+		case "lemmas":
+		content = "<?php echo preg_replace('/\s+/', '', nl2br($_SESSION["lemmalist"])) ?>";
+		break;
+		case "consolidations":
+		content = "<?php echo preg_replace('/\s+/', '', nl2br($_SESSION["consolidationslist"])) ?>";
+		break;
+		case "specialchars":
+		content = "<?php echo preg_replace('/\s+/', '', nl2br($_SESSION["specialcharslist"])) ?>";
+	
+	}
+    $( '<div title="' + title + '">' + content + '</div>' ).dialog({
+			width: 250,
+			height: 350,
+			modal: true
+		});
+  }
+</script>
+<?php
 echo "<table width=\"650\">";
 echo "<tr><td colspan=\"3\"><b>Options:</b></td></tr>";
 echo "<tr><td width=\"200\">", ($_SESSION['chunksize'] ? "Chunk Size: " . $_SESSION['chunksize'] : "Number of Chunks: " . $_SESSION['chunknumber']) . "</td>";
@@ -456,19 +481,19 @@ echo ($_SESSION['stopwordorderbox'] == "on") ? "<td width=\"250\">Stopwords Filt
 echo "</tr>";
 if ($_SESSION['stopwordlist'] != "") {
 	$stopwords = $_SESSION['stopwordlist'];
-	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"alert('" . $stopwords . "')\">View List</a>)</td></tr>";
+	echo "<tr><td colspan=\"3\">Stopwords removed (<a href=\"#\" onclick=\"openDialog('Stopword List', 'stopwords');\">View List</a>)</td></tr>";
 }
 if ($_SESSION['lemmalist'] != "") {
 	$lemmas = $_SESSION['lemmalist'];
-	echo "<tr><td colspan=\"3\">Lemma List Applied (<a href=\"#\" onclick=\"alert('" . $lemmas . "')\">View List</a>)</td></tr>";
+	echo "<tr><td colspan=\"3\">Lemma List Applied (<a href=\"#\" onclick=\"openDialog('Lemma List', 'lemmas');\">View List</a>)</td></tr>";
 }
 if ($_SESSION['consolidationslist'] != "") {
 	$consolidations = $_SESSION['consolidationslist'];
-	echo "<tr><td colspan=\"3\">Consolidation List Applied (<a href=\"#\" onclick=\"alert('" . $consolidations . "')\">View List</a>)</td></tr>";
+	echo "<tr><td colspan=\"3\">Consolidation List Applied (<a href=\"#\" onclick=\"openDialog('Consolidations', 'consolidations');\">View List</a>)</td></tr>";
 }
 if ($_SESSION['specialcharslist'] != "") {
 	$specialchars = $_SESSION['specialcharslist'];
-	echo "<tr><td colspan=\"3\">Special Character Rules Applied (<a href=\"#\" onclick=\"alert('" . $specialchars . "')\">View List</a>)</td></tr>";
+	echo "<tr><td colspan=\"3\">Special Character Rules Applied (<a href=\"#\" onclick=\"openDialog('Special Character Rules', 'specialchars');\">View List</a>)</td></tr>";
 }
 echo "</table>";
 echo "<hr>";
