@@ -498,6 +498,9 @@ if ($_SESSION['specialcharslist'] != "") {
 echo "</table>";
 echo "<hr>";
 
+// Duplicate file names cause the loop to break, incomplete page load, and thus disabling of JQuery
+$_SESSION['uploaded_files'] = array_unique($_SESSION['uploaded_files']);
+
 // Loop through the source files and chunk each one.
 foreach ($_SESSION['uploaded_files'] as $sourcefile) {
 	echo "<h3>".$sourcefile."</h3>";
