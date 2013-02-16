@@ -556,7 +556,7 @@ foreach ($chunkarray as $range=>$tokens) {
 	}
 	$tsvdirectory = ('sessions/' . session_id() . '/tsvs/');
 	hash_sort($wordcount, 'c');
-	$outtsv = http_build_query($wordcount, '', ',');
+	$outtsv = urldecode(http_build_query($wordcount, '', "\t"));
 	$tsvfile = $tsvdirectory . $outfile . ".tsv";
 	file_put_contents($tsvfile, $outtsv);
 

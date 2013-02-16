@@ -17,7 +17,7 @@ function transpose(){
 		$all_hash[$txtname] = array();
 		// Read the file and assign it to a hash array
 		$file = fopen($tsv_file, 'r');
-		$hash = fgetcsv($file);
+		$hash = fgetcsv($file, 0, "\t");
 		// Loop through the hash array and get each set of contents
 		foreach ($hash as $set) {
 			// Get the words and counts for the current set by splitting around "="
@@ -50,14 +50,14 @@ function transpose(){
 		foreach ($uniquewords as $word) {
 			## Proceed only if there are no stopwords or if the word is not in the stopword list ##
 			$stopwords = preg_split("/[\s,]+/", $_SESSION['stopwordlist']);
-			if (isset($_SESSION['stopwordlist']) && $_SESSION['stopwordorderbox'] == "off" && !in_array($word, $_SESSION['stopwordlist'])) {
+			//if (isset($_SESSION['stopwordlist']) && $_SESSION['stopwordorderbox'] == "off" && !in_array($word, $_SESSION['stopwordlist'])) {
 				// Count the number of times the current word occurs in the current chunk
 				$count = @$all_hash[$chunkname]["$word"];
 				// If the word doesn't occur, make its count is zero
 				$count = $count ? $count : 0;
 				// Add the word counts as a tab-separated string
 				$line .= "\t" . $count;
-			}
+			//}
 		}
 		// End the line when there are no more words
 		$merge .= "$line\n";
