@@ -5,7 +5,7 @@ function remove_stopWords($text, $stopWords) {
 		return $text;
 	}
 	elseif ($stopWords == "") {
-		print("Nothing to do, since there are no stopwords.");
+		//print("Nothing to do, since there are no stopwords.");
 		return $text;
 	}
 	else {
