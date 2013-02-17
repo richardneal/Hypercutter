@@ -766,7 +766,7 @@ echo '"/>';
 			</div>
 		</div>
 			<!-- Filedrag Script -->
-			<script src="filedrag/consolidationfiledrag.js"></script>
+			<script src="filedrag/consolidationfiledrags.js"></script>
 
 			<div id="dialog-specialchars" title="Upload Rules for Handling Special Characters">
 			
