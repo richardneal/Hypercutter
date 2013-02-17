@@ -250,10 +250,10 @@ if(isset($_SESSION["digitsbox"]))
 	$digits = $_SESSION["digitsbox"];
 if(isset($_SESSION["stopwordlist"]))
 	$removeStopWords = $_SESSION["stopwordlist"];
-if(isset($_SESSION["lemmabox"]))
-	$lemmatize = $_SESSION["lemmalist"];
+if(isset($_SESSION["lemmalist"]))
+	$lemmatize = "on";
 if(isset($_SESSION["consolidationslist"]))
-	$consolidate = $_SESSION["consolidationslist"];
+	$consolidate = "on";
 if(isset($_SESSION["lowercasebox"]))
 	$lowercase = $_SESSION["lowercasebox"];
 if(isset($_SESSION["specialbox"]))
