@@ -23,7 +23,7 @@ function remove_stopWords($text, $stopWords) {
 	}
 }
 
-function lemmatize($text, $lemmas) {
+function old_lemmatize($text, $lemmas) {
 	if (empty($text)) {
 		print("You must include some text from which to have the text lemmatized.");
 		return $text;
@@ -58,6 +58,19 @@ function lemmatize($text, $lemmas) {
 	}
 }
 
+function lemmatize($text, $lemmas) {
+	foreach(preg_split("/(\r?\n)/", $lemmas) as $line){ // For each line of the lemma list
+		$line = str_replace(", ", ",", $line); // Strip space after comma
+		$line = explode(",", $line); // Convert the line string to an array
+		$lemma = array_shift($line); // Use the first item as the lemma
+		foreach ($line as $type) { // Loop through all the remaining items
+			$type = "/\b" . $type . "\b/i"; // Change each one to a regex pattern
+			$text = preg_replace($type, $lemma, $text); // Replace the pattern with the lemma
+		}
+	}
+	return $text;
+}
+
 function removePunctuation($text, $apos, $hyphens) {
 	if (empty($text)) {
 		print("You must include some text from which to have the punctuation removed.");
@@ -85,7 +98,7 @@ function removePunctuation($text, $apos, $hyphens) {
 	return $text;
 }
 
-function consolidate($text, $consolidations) {
+function old_consolidate($text, $consolidations) {
 	if (empty($text)) {
 		print("You must include some text from which to have the text removed.");
 		return $text;
@@ -108,6 +121,19 @@ function consolidate($text, $consolidations) {
 		return $removedString;
 	}
 
+}
+
+function consolidate($text, $consolidations) {
+	foreach(preg_split("/(\r?\n)/", $consolidations) as $line){ // For each line of the consolidations list
+		$line = str_replace(", ", ",", $line); // Strip space after comma
+		$line = explode(",", $line); // Convert the line string to an array
+		$key = array_shift($line); // Use the first item as the output form
+		foreach ($line as $str) { // Loop through all the remaining items
+			$str = "/" . $str . "/"; // Change each one to a regex pattern
+			$text = preg_replace($str, $key, $text); // Replace the pattern with the lemma
+		}
+	}
+	return $text;
 }
 
 function formatSpecial($text, $formatspecial, $specials, $common, $lowercase) {
