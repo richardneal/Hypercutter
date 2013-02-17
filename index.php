@@ -643,12 +643,13 @@ echo '"/>';
 		<a id="stopwords" href="#">Load Stopword List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a stopword list (a text file with each stopword separated by a space or a comma)." />
 	</td>
 	<td width="50%">
-		<a id="lemmas" href="#">Load Lemma List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a lemma list." />
+		<a id="lemmas" href="#">Load Lemma List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a lemma list. Each lemma should be on a separate line. Word types associated with each lemma should take the form of a comma-separated list following the lemma (e.g. 'sing, sang, sung' for the lemma 'sing')." />
 	</td>
 </tr>
 <tr>
 	<td width="50%">
-		<a id="consolidations" href="#">Load Consolidations List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a consolidations list." />
+		<a id="consolidations" href="#">Load Consolidations List</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a consolidations list. Each line should contain a comma-separated list containing character pattern followed by a the values to replace with the pattern (e.g. 
+		'a, aa, bb' will replace the second two forms with the first)." />
 	</td>
 	<td width="50%">
 		<a id="specialchars" href="#">Special Characters Handling</a> <img valign="bottom" src="question_mark.png" alt="Question Mark" title="Click the link to upload a list is of rules for handling special character entities." />
